@@ -30,7 +30,33 @@ Pytorch 2引入了一个很重要的新特性，inductor优化。具体来说则
 
 ### 捕获计算图
 捕获计算图的api我用到的有两个，分别是torch.fx和torch.export.export。
-前者捕获粗粒度的计算图，后者捕获aten层面细粒度的计算图。这边直接用视觉里面常用的resnet18模型来做一个示例：
+前者捕获粗粒度的计算图，后者捕获aten层面细粒度的计算图。粗细是什么层面的概念呢？我这边用一个大家都熟知的torch.nn.Linear全链接层来举例，大家都知道fc的计算可以表示为x * weight * bias，即一次矩阵乘和一次矩阵加。
+torch.fx导出的粗图长下面这样：
+```python
+graph():
+    %input_1 : torch.Tensor [num_users=1] = placeholder[target=input]
+    %weight : [num_users=1] = get_attr[target=weight]
+    %bias : [num_users=1] = get_attr[target=bias]
+    %linear : [num_users=1] = call_function[target=torch._C._nn.linear](args = (%input_1, %weight, %bias), kwargs = {})
+    return linear
+```
+linear节点即是Linear运算操作，可以看到它是调用了torch._C._nn.linear函数，这张图的粗细程度在torch.nn层面 
+
+torch.export.export导出的细图长下面这样：
+```python
+graph():
+    %arg0_1 : [num_users=1] = placeholder[target=arg0_1]
+    %arg1_1 : [num_users=1] = placeholder[target=arg1_1]
+    %arg2_1 : [num_users=1] = placeholder[target=arg2_1]
+    %t : [num_users=1] = call_function[target=torch.ops.aten.t.default](args = (%arg0_1,), kwargs = {})
+    %addmm : [num_users=1] = call_function[target=torch.ops.aten.addmm.default](args = (%arg1_1, %arg2_1, %t), kwargs = {})
+    return (addmm,)
+```
+其中的addmm层即为Linear层运算，addmm是一个融合算子，包含一次矩阵乘和一次矩阵加。这是比torch._C._nn.linear更加深层次的调用，达到了aten算子层，aten算子可以理解为是pytorch底层真正调用的函数，torch.nn和torch.functional中基本上所有的Tensor操作最终都会转换成aten层面的操作(其实Tensor这个数据结构实际就是aten::Tensor)，然后调用libtorch_cpu.so或libtorch_cuda.so里面暴露的aten C++函数接口完成实际运算。
+
+图越细，越接近于底层的计算逻辑，就越脱离python runtime而贴近C++算子层
+
+下面的内容直接用视觉里面常用的resnet18模型来做一个示例：
 
 #### torch.fx
 torch.fx提供了一个非常简单的函数接口symbolic_trace，传入nn.Module，返回torch.fx.GraphModule对象，torch.fx.GraphModule是一个nn.Module的子类，可以直接当做一个nn.Module来用，例如forward或者state_dict方法等
