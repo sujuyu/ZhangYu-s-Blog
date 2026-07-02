@@ -2,11 +2,9 @@
 
 最近接手一个性能稀烂的推理服务, 老规矩, 先抓个 timeline 看大头在哪. 
 ![alt text](image.png)
-一眼就看到 attention 那一坨占了差不多一次前向的 60%:
+一眼就看到 attention(连同它前后的 projection)占了差不多一次前向的 60%.
 
-![baseline timeline: attention 占比](attention_share.png)
-
-attention kernel 本身占 30%, 再加上它前面那堆给 K/V、mask 做 layer_norm / expand / pad 的预处理, 合起来快到 60% 了. 我最喜欢这种情况, 有大头可以啃, 不会像遇到一堆碎kernel一样感觉有劲无处使.
+我最喜欢这种情况, 有个明确的大头可以啃, 不会像遇到一堆碎 kernel 那样感觉有劲无处使.
 
 顺着 fx graph 把这几个 attention 节点扒出来看形状(动态 batch, 取晚高峰 `batch=1700`). 这是一个搜推里很常见的 target attention: 少量 target item 去 attend 一段较长的上下文:
 
@@ -110,22 +108,22 @@ for start_kv in range(0, kv_seq_len, BLOCK_KV_S):
 
 ## 结果: 下降不及预期
 
-为了能逐段拆开、也方便复现, 我拿生产 shape(B=1700, H=8, Q=15, KV=1458, D=64)单独搭了个 microbench, 用 cudaEvent 把 **mask 物化 / K/V expand 物化 / attention** 三段分别计时(下面的数就是这么来的; 注意隔离出来的 `F.sdpa` 会比线上那个 fmha backend 慢一点, ~6.7ms vs 线上 ~5ms, 但趋势一样).
+拿生产 shape(B=1700, H=8, Q=15, KV=1458, D=64)单独搭个 microbench, cudaEvent 量一下(端到端就是两次 event 间隔). 我砍掉了 mask 物化, 按理整段该明显变快:
 
-把 mask 物化干掉了, 按理该有明显收益. 实测(就是那张图的前两行):
+| 变体 | mask 物化 | attention kernel | 整段合计 |
+|---|---|---|---|
+| baseline (F.sdpa) | 0.71 | 6.73 | **12.26 ms** |
+| 自定义 kernel | 0 (现算) | 4.18 | **9.01 ms** |
 
-| 变体 | mask 物化 | K/V expand 物化 | attention | 合计 |
-|---|---|---|---|---|
-| baseline (F.sdpa) | 0.71 | 4.82 | 6.73 | **12.26 ms** |
-| 自定义 kernel(未折叠) | 0 | 4.82 | 4.18 | **9.01 ms** |
+> 注: 隔离出来的 `F.sdpa`(~6.7ms)比线上那个 fmha backend(~5ms)略慢, backend 不同, 趋势一致.
 
-嗯? 合计从 12.26 只降到 9.01, 才 -27%. attention kernel 从 6.73 降到 4.18, 也没到我期待的量级. 说好的访存 bound 呢, 怎么砍掉 mask 之后只挪动了这么点?
+mask 物化确实归零了, attention 也从 6.73 掉到 4.18. 但整段只从 12.26 挪到 9.01, 才 -27%, 远没到我"访存 bound、砍掉 mask 就起飞"的预期.
 
-盯着这张表看, 问题很明显: 中间那一列 **`K/V expand 物化 = 4.82ms` 纹丝没动**, 而且它比我优化的 attention 本身还贵. 我一直在盯着 mask, 结果真正的大头在旁边。
+盯着 baseline 这行, 有笔账对不上: 我能数出来的 `mask 0.71 + attention 6.73 = 7.4ms`, 可整段实测是 12.26ms —— **中间还有 ~4.8ms 我压根没数进去**. 更要命的是, "自定义 kernel"这版里它一点没动(`9.01 - attention 4.18 ≈ 4.8`, 还在那躺着). 我一直盯着 mask, 真正没动的大头其实是另一个我没注意到的东西. 那就回头扒一扒: 这 ~4.8ms 到底花哪了.
 
-## 回头查上游: expand 被物化了
+## 回头查上游: 那 ~4.8ms 是 K/V 的 expand 被物化了
 
-去看 AOTInductor 生成的 wrapper.cpp, 直接看我这个自定义算子拿到的 K/V 到底是什么. 一看就明白了:
+顺着这笔对不上的账, 把 attention kernel 之前那一段单独拎出来 cudaEvent 量了一下 —— 4.82ms, 就是它. 再去看 AOTInductor 生成的 wrapper.cpp, 盯着我这个自定义算子到底拿到的 K/V 是什么, 一下就明白了:
 
 ```cpp
 // 折叠前: K/V 被分配成完整的 (s, 8, 1458, 64), batch stride = 746496 (不是 0!)
@@ -224,4 +222,4 @@ kernel 里每个 CTA 读 K 的地址是 `k_ptr + bid * stride_k_b + hid * stride
 4. **物化不只贵在那一下的读写, 还会破坏 L2 复用**. 同一份数据被复制成 N 份独立拷贝后, 消费它的 kernel 也会从"L2 命中"退化成"打满 DRAM". 所以折叠 expand 是一石二鸟: 省掉物化 kernel + 让 attention 自己也回到 L2。
 5. 数字: 这段 attention 从 baseline 的 12.26ms 降到 1.40ms, 其中 attention kernel 本身 6.73 -> 1.40ms. 数值上 fold 版和 F.sdpa 的最大误差 0.0039 (fp16), 在容忍范围内.
 
-最后回到开头那个 MFU. attention kernel 从 ~5ms 干到 1.40ms, MFU 从 ~5% 提到了 ~20%(`76e9 / 1.4e-3 ≈ 54 TFLOP/s`, 对 274 峰值) —— 访存 bound 基本解掉了, 但离峰值还差得远. 剩下的坑很清楚: q 只有 15, tensor core 的 M 维只用到 16, 算力天生喂不饱. 下一步可以做 batch grouping —— 反正 K/V 跨 batch 共享, 把多个 batch 的 q 摞起来做一次大 matmul, 把 M 撑到 64 以上. 不过那是从"访存 bound"迈到"算力 bound"之后的事了, 有机会再写一篇.
+最后回到开头那个 MFU: attention kernel 从 ~5ms 干到 1.40ms, MFU 从 ~5% 提到了 ~20%(`76e9 / 1.4e-3 ≈ 54 TFLOP/s`, 对 274 峰值), 访存 bound 基本解掉了. 回头看, 这一路真正花力气的地方, 不是把 kernel 写多快, 而是先看清数据本身的两个特点 —— mask 可分离、K/V 跨 batch 共享 —— 再顺着它们, 把通用 SDPA 接不住的那部分活儿接过来.
