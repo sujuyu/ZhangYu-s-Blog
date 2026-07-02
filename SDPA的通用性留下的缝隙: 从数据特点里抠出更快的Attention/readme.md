@@ -205,12 +205,6 @@ call__sep_mask_attn(buf1194, buf1195, buf1196, ...,
 
 这块业务模型端到端的整图 GPU busy time 也从 ~336ms 掉到 ~167ms, 差不多砍半, 跟这里的微基准对得上.(数值上 fold 版和 F.sdpa 的最大误差 0.0039, fp16 下放心用.)
 
-优化前 9.99ms
-![alt text](image-1.png)
-
-优化后 1.4ms
-![alt text](image-2.png)
-
 ## 为什么 attention 自己也快了 3 倍
 
 kernel 代码一个字没改, FLOPs 也完全一样, 变快纯粹是**访存模式从"打满 DRAM"变成了"命中 L2"**.
@@ -242,6 +236,12 @@ G 取多少? 让 `M = G * next_pow2(q)` 落在 128 附近最舒服(q=15 -> G=8 -
 ![batch grouping: 把 M 从 16 撑到 128](mfu_batchgroup.png)
 
 结果: attention kernel **1.40ms -> 0.46ms**, MFU **~20% -> ~61%**, 快了 3 倍; 整图 GPU 再从 ~167ms 降到 ~148ms. 对一个 q=15 的带 mask attention, 60% 的 MFU 就正常多了. 落到优化器里, 我按 `q_seq_len <= 32 且 K/V 跨 batch 共享` 自动切到这个 grouped kernel, q 长的正常 attention 仍走原来那版.
+
+优化前 9.99ms
+![alt text](image-1.png)
+
+最终优化后 0.465ms
+![alt text](image-3.png)
 
 ## 总结
 
