@@ -119,11 +119,13 @@ for start_kv in range(0, kv_seq_len, BLOCK_KV_S):
 
 mask 物化确实归零了, attention 也从 6.73 掉到 4.18. 但整段只从 12.26 挪到 9.01, 才 -27%, 远没到我"访存 bound、砍掉 mask 就起飞"的预期.
 
-盯着 baseline 这行, 有笔账对不上: 我能数出来的 `mask 0.71 + attention 6.73 = 7.4ms`, 可整段实测是 12.26ms —— **中间还有 ~4.8ms 我压根没数进去**. 更要命的是, "自定义 kernel"这版里它一点没动(`9.01 - attention 4.18 ≈ 4.8`, 还在那躺着). 我一直盯着 mask, 真正没动的大头其实是另一个我没注意到的东西. 那就回头扒一扒: 这 ~4.8ms 到底花哪了.
+先说清楚这里的『整段』是什么: 它 = attention kernel + 它前面那一坨给 K/V、mask 做 layer_norm / expand / cast 的**前处理**. 我这次只动了 mask, 那就对下账 —— baseline 的 12.26ms 减掉 attention 6.73、再减掉刚干掉的 mask 物化 0.71, **前处理里还剩 ~4.8ms**; 换到自定义 kernel 这版, 9.01 减掉 attention 4.18, 这 ~4.8ms 原封不动地还在(我没碰它).
 
-## 回头查上游: 那 ~4.8ms 是 K/V 的 expand 被物化了
+一段前处理就吃掉 4.8ms、比 attention kernel 本身还贵, 这明显不对劲. 搞定 mask 之后, 我就转头盯这块前处理. 老实说这次是先打枪后画靶子: 就这个数据形态配上这么离谱的耗时, 直觉基本能锁定是 **K/V 的 expand 物化** —— 上下文逻辑上跨 batch 共享, 一旦被摊平成每个 batch 一份, 读写量刚好是这个量级. 剩下的只是去原始代码里找证据、坐实它.
 
-顺着这笔对不上的账, 把 attention kernel 之前那一段单独拎出来 cudaEvent 量了一下 —— 4.82ms, 就是它. 再去看 AOTInductor 生成的 wrapper.cpp, 盯着我这个自定义算子到底拿到的 K/V 是什么, 一下就明白了:
+## 回头查上游: 果然是 K/V 的 expand 被物化了
+
+去看 AOTInductor 生成的 wrapper.cpp, 盯着我这个自定义算子拿到的 K/V 到底是什么, 一眼就坐实了:
 
 ```cpp
 // 折叠前: K/V 被分配成完整的 (s, 8, 1458, 64), batch stride = 746496 (不是 0!)
@@ -136,9 +138,9 @@ call__sep_mask_attn(buf1194/*q*/, buf1195/*k*/, buf1196/*v*/, ...,
                     7680, 746496, 746496, ...);   // q_b, k_b, v_b
 ```
 
-K/V 的 batch stride 是 `746496`, 不是 0 — 说明 inductor **给每个 batch 都造了一份独立的物理拷贝**, 把逻辑上"跨 batch 共享"的 `(1,8,1458,64)` 摊成了实打实的 `(1700,8,1458,64)`. K + V 加起来 `1700*8*1458*64*2*2 ≈ 5 GB`, 每次前向先写这 5GB, 再让 attention kernel 读回来.
+K/V 的 batch stride 是 `746496`, 不是 0 — 说明 inductor **给每个 batch 都造了一份独立的物理拷贝**, 把逻辑上"跨 batch 共享"的 `(1,8,1458,64)` 摊成了实打实的 `(1700,8,1458,64)`. K + V 加起来 `1700*8*1458*64*2*2 ≈ 5 GB`, 每次前向先写这 5GB, 再让 attention kernel 读回来. 把这段前处理单独 cudaEvent 量一下, 正好 **4.82ms** —— 跟前面那笔对不上的账严丝合缝. 靶子画上了.
 
-为什么会这样? 因为我的自定义算子对 inductor 来说是个黑盒, 它没法把一个 stride=0 的广播 view 传进一个不透明 op, 只能先老老实实 realize 成一块连续张量. 于是 `expand` 就被物化了.
+为什么会这样? 这里只能给个猜想. 我的算子其实是支持 stride 的(前面 wrapper 就是按 stride 读 K/V 的), 所以并不是"广播 view 传不进去". 更可能是: inductor 在把一个 expand 喂给不透明的自定义算子(或者 fallback 到 SDPA 这种它并不 lower 的算子)时, 倾向于先把 expand realize 成连续张量, 而不愿意把 stride=0 的 view 直接透传下去. 具体是哪条 lowering 规则决定的我没再深挖, 但现象和数据都指向这个方向.
 
 这也解释了**为什么 attention kernel 本身也没快到位**: 每个 CTA 处理一个 (batch, head), 从各自独立的 DRAM 区域读 K/V, 13600 个 CTA 读的是 13600 份互不相同的数据, L2 完全没法复用 — kernel 被这 5GB 的 K/V 回读拖成了访存 bound, 跟 mask 没啥关系.
 
@@ -217,7 +219,7 @@ kernel 里每个 CTA 读 K 的地址是 `k_ptr + bid * stride_k_b + hid * stride
 ## 总结
 
 1. **别只盯着自己怀疑的那个点**. 我一开始笃定是 mask 物化, 干掉之后只降了 27%, 才发现旁边的 expand 物化(4.82ms)比 mask(0.71ms)大一个量级. 分段计时(mask / expand / attention 各测一段)是快速定位的关键.
-2. **自定义算子会让 inductor 物化它的输入**. 一个 stride=0 的 `expand`/广播 view, 一旦喂给不透明的自定义 op, 就会被 realize 成完整的连续张量. 如果这个维度很大(这里是 batch=1700), 代价就是几个 GB 的额外读写.
+2. **喂给不透明算子的 `expand`, 很可能会被 inductor 物化**(这是我的猜想: 我的算子本身支持 stride, 但 inductor 遇到自定义 op / fallback 算子时似乎倾向于把广播 view realize 成连续张量). 如果被摊平的维度很大(这里是 batch=1700), 代价就是几个 GB 的额外读写. 遇到类似情况, 值得去 dump 出来的 wrapper.cpp 里核对一下算子到底拿到的是不是 stride=0 的共享张量.
 3. **对策是把 expand 前的张量直接接进 op**, 让 kernel 内部用 `stride=0` 去读共享数据, 而不是让上游先物化. 匹配时 unwrap 掉 batch-expand, wrapper 里把 size==1 的维 stride 置 0.
 4. **物化不只贵在那一下的读写, 还会破坏 L2 复用**. 同一份数据被复制成 N 份独立拷贝后, 消费它的 kernel 也会从"L2 命中"退化成"打满 DRAM". 所以折叠 expand 是一石二鸟: 省掉物化 kernel + 让 attention 自己也回到 L2。
 5. 数字: 这段 attention 从 baseline 的 12.26ms 降到 1.40ms, 其中 attention kernel 本身 6.73 -> 1.40ms. 数值上 fold 版和 F.sdpa 的最大误差 0.0039 (fp16), 在容忍范围内.
