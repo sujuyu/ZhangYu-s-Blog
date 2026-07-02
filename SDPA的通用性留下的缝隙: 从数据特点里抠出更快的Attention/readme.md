@@ -205,6 +205,12 @@ call__sep_mask_attn(buf1194, buf1195, buf1196, ...,
 
 这块业务模型端到端的整图 GPU busy time 也从 ~336ms 掉到 ~167ms, 差不多砍半, 跟这里的微基准对得上.(数值上 fold 版和 F.sdpa 的最大误差 0.0039, fp16 下放心用.)
 
+优化前 9.99ms
+![alt text](image-1.png)
+
+优化后 1.4ms
+![alt text](image-2.png)
+
 ## 为什么 attention 自己也快了 3 倍
 
 kernel 代码一个字没改, FLOPs 也完全一样, 变快纯粹是**访存模式从"打满 DRAM"变成了"命中 L2"**.
