@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1050" height="330" viewBox="0 0 1050 330">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="42" y="42" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#222" text-anchor="start">broadcast matmul 在通用实现里的执行链路</text>
+<text x="42" y="68" font-family="Arial, sans-serif" font-size="14" font-weight="400" fill="#555" text-anchor="start">weight 的 batch 维本来是 1，通用 matmul 先广播成 B，再走 bmm</text>
+<rect x="45" y="105" width="195" height="88" fill="#e8f1ff" stroke="#333" stroke-width="1.2" rx="6"/>
+<text x="142.5" y="141" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#222" text-anchor="middle">FX graph</text>
+<text x="142.5" y="167" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#333" text-anchor="middle">[B,T,1,K] @ [1,T,K,N]</text>
+<line x1="256" y1="149.0" x2="290" y2="149.0" stroke="#333" stroke-width="1.6" marker-end="url(#arrow)"/>
+<rect x="292" y="105" width="195" height="88" fill="#fff3df" stroke="#333" stroke-width="1.2" rx="6"/>
+<text x="389.5" y="141" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#222" text-anchor="middle">aten.matmul</text>
+<text x="389.5" y="167" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#333" text-anchor="middle">broadcast batch dim</text>
+<line x1="503" y1="149.0" x2="537" y2="149.0" stroke="#333" stroke-width="1.6" marker-end="url(#arrow)"/>
+<rect x="539" y="105" width="195" height="88" fill="#ffe8e8" stroke="#333" stroke-width="1.2" rx="6"/>
+<text x="636.5" y="141" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#222" text-anchor="middle">expand + clone</text>
+<text x="636.5" y="167" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#333" text-anchor="middle">[B,T,K,N] materialized</text>
+<line x1="750" y1="149.0" x2="784" y2="149.0" stroke="#333" stroke-width="1.6" marker-end="url(#arrow)"/>
+<rect x="786" y="105" width="195" height="88" fill="#e9f7ef" stroke="#333" stroke-width="1.2" rx="6"/>
+<text x="883.5" y="141" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#222" text-anchor="middle">bmm</text>
+<text x="883.5" y="167" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#333" text-anchor="middle">[B*T,1,K] x [B*T,K,N]</text>
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#333"/></marker></defs>
+<text x="42" y="252" font-family="Arial, sans-serif" font-size="14" font-weight="400" fill="#333" text-anchor="start">问题点：expand 本身可以是 metadata view，但 broadcast 后的 weight stride-0 无法直接喂给 bmm 的常规 batch 矩阵布局，reshape/clone 触发实际 copy。</text>
+</svg>

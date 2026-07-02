@@ -1,0 +1,83 @@
+{
+  "exp1": {
+    "trace": "/tmp/exp1_shared_target_to.json",
+    "num_memcpy": 3,
+    "sum_dur_ms": 25.034,
+    "span_ms": 25.095,
+    "overlap_ratio": -0.002,
+    "events": [
+      {
+        "pid": 3,
+        "tid": 0,
+        "start_ms": 0.0,
+        "dur_ms": 8.754
+      },
+      {
+        "pid": 4,
+        "tid": 0,
+        "start_ms": 8.793,
+        "dur_ms": 8.175
+      },
+      {
+        "pid": 5,
+        "tid": 0,
+        "start_ms": 16.989,
+        "dur_ms": 8.105
+      }
+    ]
+  },
+  "exp2": {
+    "trace": "/tmp/exp2_src_stream_to_shared_target.json",
+    "num_memcpy": 3,
+    "sum_dur_ms": 36.238,
+    "span_ms": 36.305,
+    "overlap_ratio": -0.002,
+    "events": [
+      {
+        "pid": 3,
+        "tid": 1,
+        "start_ms": 0.0,
+        "dur_ms": 8.067
+      },
+      {
+        "pid": 4,
+        "tid": 1,
+        "start_ms": 8.097,
+        "dur_ms": 20.062
+      },
+      {
+        "pid": 5,
+        "tid": 1,
+        "start_ms": 28.195,
+        "dur_ms": 8.11
+      }
+    ]
+  },
+  "exp3": {
+    "trace": "/tmp/exp3_manual_memcpy_events.json",
+    "num_memcpy": 3,
+    "sum_dur_ms": 24.353,
+    "span_ms": 8.239,
+    "overlap_ratio": 0.662,
+    "events": [
+      {
+        "pid": 3,
+        "tid": 2,
+        "start_ms": 0.0,
+        "dur_ms": 8.069
+      },
+      {
+        "pid": 4,
+        "tid": 2,
+        "start_ms": 0.066,
+        "dur_ms": 8.173
+      },
+      {
+        "pid": 5,
+        "tid": 2,
+        "start_ms": 0.114,
+        "dur_ms": 8.11
+      }
+    ]
+  }
+}

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="294">
+<rect x="0" y="0" width="100%" height="100%" fill="#ffffff"/>
+<text x="20" y="30" font-size="20" font-family="Arial" fill="#222">Experiment 1: target guard + .to() (single target stream)</text>
+<text x="20" y="52" font-size="14" font-family="Arial" fill="#555">Total span: 25.095 ms</text>
+<line x1="130" y1="214" x2="1170" y2="214" stroke="#444" stroke-width="1"/>
+<line x1="130.00" y1="214" x2="130.00" y2="220" stroke="#444" stroke-width="1"/>
+<text x="115.00" y="236" font-size="12" font-family="Arial" fill="#444">0.0</text>
+<line x1="336.00" y1="214" x2="336.00" y2="220" stroke="#444" stroke-width="1"/>
+<text x="321.00" y="236" font-size="12" font-family="Arial" fill="#444">5.0</text>
+<line x1="542.00" y1="214" x2="542.00" y2="220" stroke="#444" stroke-width="1"/>
+<text x="527.00" y="236" font-size="12" font-family="Arial" fill="#444">10.0</text>
+<line x1="748.00" y1="214" x2="748.00" y2="220" stroke="#444" stroke-width="1"/>
+<text x="733.00" y="236" font-size="12" font-family="Arial" fill="#444">15.1</text>
+<line x1="954.00" y1="214" x2="954.00" y2="220" stroke="#444" stroke-width="1"/>
+<text x="939.00" y="236" font-size="12" font-family="Arial" fill="#444">20.1</text>
+<line x1="1160.00" y1="214" x2="1160.00" y2="220" stroke="#444" stroke-width="1"/>
+<text x="1145.00" y="236" font-size="12" font-family="Arial" fill="#444">25.1</text>
+<text x="10" y="78" font-size="13" font-family="Arial" fill="#333">lane pid=3,tid=0</text>
+<line x1="130" y1="92" x2="1170" y2="92" stroke="#eee" stroke-width="1"/>
+<text x="10" y="126" font-size="13" font-family="Arial" fill="#333">lane pid=4,tid=0</text>
+<line x1="130" y1="140" x2="1170" y2="140" stroke="#eee" stroke-width="1"/>
+<text x="10" y="174" font-size="13" font-family="Arial" fill="#333">lane pid=5,tid=0</text>
+<line x1="130" y1="188" x2="1170" y2="188" stroke="#eee" stroke-width="1"/>
+<rect x="130.00" y="60" width="359.31" height="26" fill="#2E86AB" opacity="0.85"/>
+<text x="133.00" y="77" font-size="11" font-family="Arial" fill="#fff">8.75ms</text>
+<rect x="490.91" y="108" width="335.52" height="26" fill="#F18F01" opacity="0.85"/>
+<text x="493.91" y="125" font-size="11" font-family="Arial" fill="#fff">8.17ms</text>
+<rect x="827.32" y="156" width="332.68" height="26" fill="#C73E1D" opacity="0.85"/>
+<text x="830.32" y="173" font-size="11" font-family="Arial" fill="#fff">8.11ms</text>
+<text x="130" y="256" font-size="12" font-family="Arial" fill="#666">time (ms, normalized to first memcpy start)</text>
+</svg>

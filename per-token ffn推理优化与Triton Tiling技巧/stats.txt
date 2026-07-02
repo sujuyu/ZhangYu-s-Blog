@@ -1,0 +1,47 @@
+[old]
+kernel_total_us=308914.047
+kernel_count=790
+sync_gap_avg_us=30867.896
+sync_gap_first_us=31158.447
+top kernels:
+  139022.430 us    60x  avg=2317.041 us  triton_poi_fused_clone_expand_7
+   58654.353 us    40x  avg=1466.359 us  triton_tem_fused__to_copy__unsafe_view_bmm_clone_expand_unsqueeze_view_8
+   52924.874 us    90x  avg= 588.054 us  triton_poi_fused_clone_expand_4
+   22050.925 us    20x  avg=1102.546 us  triton_tem_fused__unsafe_view_bmm_clone_expand_mul_silu_squeeze_unsqueeze_view_10
+   14627.094 us    50x  avg= 292.542 us  triton_tem_fused__unsafe_view_bmm_clone_expand_unsqueeze_view_5
+   11718.818 us    40x  avg= 292.970 us  triton_tem_fused__to_copy__unsafe_view_bmm_clone_expand_unsqueeze_view_13
+    2443.520 us    90x  avg=  27.150 us  triton_tem_fused__to_copy_add_addmm_cat_elu_native_layer_norm_select_squeeze_t_view_18
+    1383.717 us    90x  avg=  15.375 us  triton_tem_fused_addmm_elu_t_19
+    1332.663 us    20x  avg=  66.633 us  triton_poi_fused_mul_silu_squeeze_view_9
+    1280.136 us    30x  avg=  42.671 us  _large_batch_lt32_seq_lt32_d_flash_attention_triton
+categories:
+  196442.345 us   330x  clone_expand/copy
+  107509.883 us   220x  broadcast_bmm
+    3614.533 us   200x  dense/elementwise
+    1347.286 us    40x  attention
+
+[new]
+kernel_total_us=18572.748
+kernel_count=770
+sync_gap_avg_us=1851.525
+sync_gap_first_us=1556.498
+top kernels:
+    9872.397 us   220x  avg=  44.875 us  _large_batch_per_token_broadcast_weight_matmul_triton
+    2367.354 us    90x  avg=  26.304 us  triton_tem_fused__to_copy_add_addmm_cat_elu_native_layer_norm_select_squeeze_t_view_10
+    1134.134 us    30x  avg=  37.804 us  _large_batch_lt32_seq_lt32_d_flash_attention_triton
+    1006.912 us    90x  avg=  11.188 us  triton_tem_fused_addmm_elu_t_11
+     955.501 us    20x  avg=  47.775 us  triton_poi_fused_mul_silu_squeeze_unsqueeze_3
+     730.154 us    10x  avg=  73.015 us  triton_poi_fused__to_copy_add_cat_native_layer_norm_select_squeeze_view_9
+     584.751 us    90x  avg=   6.497 us  triton_poi_fused_addmm_elu_12
+     273.600 us    40x  avg=   6.840 us  triton_tem_fused_addmm_elu_t_16
+     192.550 us    10x  avg=  19.255 us  triton_per_fused__to_copy_add_native_layer_norm_squeeze_unsqueeze_view_2
+     186.110 us    10x  avg=  18.611 us  triton_per_fused__to_copy_native_layer_norm_unsqueeze_view_5
+categories:
+    9872.397 us   220x  custom_matmul
+    4114.509 us   180x  clone_expand/copy
+    3394.077 us   330x  dense/elementwise
+    1191.765 us    40x  attention
+
+[eager trace kernel names]
+  1x void at::native::elementwise_kernel_manual_unroll<128, 8, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#10}::operator()() const::{lambda(c10::Half)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#10}::operator()() const::{lambda(c10::Half)#1} const&)::{lambda(int, bool)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#10}::operator()() const::{lambda(c10::Half)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#10}::operator()() const::{lambda(c10::Half)#1} const&)::{lambda(int, bool)#1})
+  1x Cijk_Ailk_Bljk_HHS_BH_Bias_AS_SAV_UserArgs_MT256x16x32_MI16x16x1_SN_LDSB1_AFC1_AFEM1_AFEM1_ASEM1_CLR1_CADS0_EPS0_GRVWA8_GRVWB2_GSUAMB_IU1_K1_LBSPPA2048_LBSPPB128_LBSPPM0_LPA0_LPB4_LPM0_LRVW4_LWPMn1_MIAV1_MIWT4_1_MO40_NTn1_NTA4_NTB0_NTC3_NTD3_NEPBS16_NLCA1_NLCB1_ONLL1_PGR2_PLR1_PKA1_SIA3_SS1_SPO0_SRVW0_SSO0_SVW4_TLDS1_ULSGRO0_USL1_UIOFGRO0_USFGROn1_VWA4_VWB1_WSGRA2_WSGRB0_WG64_4_1_WGMXCC1_WGMXCCG0

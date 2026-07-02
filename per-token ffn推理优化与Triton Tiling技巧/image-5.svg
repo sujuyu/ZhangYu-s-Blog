@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="420" viewBox="0 0 880 420">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="42" y="42" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#222" text-anchor="start">整体耗时对比</text>
+<text x="42" y="68" font-family="Arial, sans-serif" font-size="14" font-weight="400" fill="#555" text-anchor="start">hipEventSynchronize 起始间隔均值：30.87 ms -&gt; 1.85 ms，约 16.7x</text>
+<line x1="95" y1="330" x2="785" y2="330" stroke="#333"/>
+<line x1="95" y1="85" x2="95" y2="330" stroke="#333"/>
+<rect x="215" y="122.37" width="170" height="207.63" fill="#d95f5f" rx="4"/>
+<text x="300.0" y="112.37288135593221" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#222" text-anchor="middle">30.87 ms</text>
+<text x="300.0" y="360" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#333" text-anchor="middle">原始</text>
+<rect x="465" y="317.55" width="170" height="12.45" fill="#2a9d8f" rx="4"/>
+<text x="550.0" y="307.54606380677774" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#222" text-anchor="middle">1.85 ms</text>
+<text x="550.0" y="360" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#333" text-anchor="middle">优化后</text>
+<text x="42" y="382" font-family="Arial, sans-serif" font-size="13" font-weight="400" fill="#555" text-anchor="start">kernel total / 10 runs: 308.9 ms -&gt; 18.6 ms</text>
+</svg>

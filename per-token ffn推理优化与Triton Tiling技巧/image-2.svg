@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="360" viewBox="0 0 1180 360">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="34" y="34" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#222" text-anchor="start">优化后：per-token broadcast matmul 直接在 kernel 内完成</text>
+<text x="34" y="60" font-family="Arial, sans-serif" font-size="13" font-weight="400" fill="#555" text-anchor="start">one request window: 1.89 ms, kernels: 78</text>
+<line x1="190.00" y1="74" x2="190.00" y2="256" stroke="#e5e7eb" stroke-width="1"/>
+<text x="190.0" y="64" font-family="Arial, sans-serif" font-size="11" font-weight="400" fill="#666" text-anchor="middle">0.0ms</text>
+<line x1="340.00" y1="74" x2="340.00" y2="256" stroke="#e5e7eb" stroke-width="1"/>
+<text x="340.0" y="64" font-family="Arial, sans-serif" font-size="11" font-weight="400" fill="#666" text-anchor="middle">0.3ms</text>
+<line x1="490.00" y1="74" x2="490.00" y2="256" stroke="#e5e7eb" stroke-width="1"/>
+<text x="490.0" y="64" font-family="Arial, sans-serif" font-size="11" font-weight="400" fill="#666" text-anchor="middle">0.6ms</text>
+<line x1="640.00" y1="74" x2="640.00" y2="256" stroke="#e5e7eb" stroke-width="1"/>
+<text x="640.0" y="64" font-family="Arial, sans-serif" font-size="11" font-weight="400" fill="#666" text-anchor="middle">0.9ms</text>
+<line x1="790.00" y1="74" x2="790.00" y2="256" stroke="#e5e7eb" stroke-width="1"/>
+<text x="790.0" y="64" font-family="Arial, sans-serif" font-size="11" font-weight="400" fill="#666" text-anchor="middle">1.3ms</text>
+<line x1="940.00" y1="74" x2="940.00" y2="256" stroke="#e5e7eb" stroke-width="1"/>
+<text x="940.0" y="64" font-family="Arial, sans-serif" font-size="11" font-weight="400" fill="#666" text-anchor="middle">1.6ms</text>
+<line x1="1090.00" y1="74" x2="1090.00" y2="256" stroke="#e5e7eb" stroke-width="1"/>
+<text x="1090.0" y="64" font-family="Arial, sans-serif" font-size="11" font-weight="400" fill="#666" text-anchor="middle">1.9ms</text>
+<line x1="190" y1="74" x2="1090" y2="74" stroke="#222" stroke-width="1"/>
+<text x="34" y="115" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#d95f5f" text-anchor="start">clone_expand/copy</text>
+<rect x="190" y="92" width="900" height="30" fill="#f8fafc" stroke="#e5e7eb" rx="3"/>
+<rect x="275.76" y="97" width="6.03" height="20" fill="#d95f5f" opacity="0.88" rx="2"><title>triton_per_fused__to_copy_add_native_layer_norm_squeeze_view_4 12.68 us</title></rect>
+<rect x="281.79" y="97" width="8.70" height="20" fill="#d95f5f" opacity="0.88" rx="2"><title>triton_per_fused__to_copy_native_layer_norm_unsqueeze_view_5 18.28 us</title></rect>
+<rect x="361.58" y="97" width="6.39" height="20" fill="#d95f5f" opacity="0.88" rx="2"><title>triton_per_fused__to_copy_add_native_layer_norm_squeeze_unsqueeze_view_6 13.44 us</title></rect>
+<rect x="420.29" y="97" width="6.03" height="20" fill="#d95f5f" opacity="0.88" rx="2"><title>triton_per_fused__to_copy_add_native_layer_norm_squeeze_unsqueeze_view_7 12.68 us</title></rect>
+<rect x="613.58" y="97" width="7.73" height="20" fill="#d95f5f" opacity="0.88" rx="2"><title>triton_per_fused__to_copy_add_native_layer_norm_squeeze_view_8 16.24 us</title></rect>
+<rect x="621.31" y="97" width="35.17" height="20" fill="#d95f5f" opacity="0.88" rx="2"><title>triton_poi_fused__to_copy_add_cat_native_layer_norm_select_squeeze_view_9 73.92 us</title></rect>
+<rect x="656.48" y="97" width="12.08" height="20" fill="#d95f5f" opacity="0.88" rx="2"><title>triton_tem_fused__to_copy_add_addmm_cat_elu_native_layer_norm_select_squeeze_t_view_10 25.40 us</title></rect>
+<rect x="680.47" y="97" width="12.58" height="20" fill="#d95f5f" opacity="0.88" rx="2"><title>triton_tem_fused__to_copy_add_addmm_cat_elu_native_layer_norm_select_squeeze_t_view_10 26.44 us</title></rect>
+<rect x="704.83" y="97" width="12.69" height="20" fill="#d95f5f" opacity="0.88" rx="2"><title>triton_tem_fused__to_copy_add_addmm_cat_elu_native_layer_norm_select_squeeze_t_view_10 26.68 us</title></rect>
+<rect x="729.06" y="97" width="12.39" height="20" fill="#d95f5f" opacity="0.88" rx="2"><title>triton_tem_fused__to_copy_add_addmm_cat_elu_native_layer_norm_select_squeeze_t_view_10 26.04 us</title></rect>
+<rect x="755.89" y="97" width="12.52" height="20" fill="#d95f5f" opacity="0.88" rx="2"><title>triton_tem_fused__to_copy_add_addmm_cat_elu_native_layer_norm_select_squeeze_t_view_10 26.32 us</title></rect>
+<rect x="782.74" y="97" width="12.65" height="20" fill="#d95f5f" opacity="0.88" rx="2"><title>triton_tem_fused__to_copy_add_addmm_cat_elu_native_layer_norm_select_squeeze_t_view_10 26.60 us</title></rect>
+<rect x="809.63" y="97" width="12.64" height="20" fill="#d95f5f" opacity="0.88" rx="2"><title>triton_tem_fused__to_copy_add_addmm_cat_elu_native_layer_norm_select_squeeze_t_view_10 26.56 us</title></rect>
+<rect x="833.99" y="97" width="12.41" height="20" fill="#d95f5f" opacity="0.88" rx="2"><title>triton_tem_fused__to_copy_add_addmm_cat_elu_native_layer_norm_select_squeeze_t_view_10 26.08 us</title></rect>
+<rect x="858.21" y="97" width="12.35" height="20" fill="#d95f5f" opacity="0.88" rx="2"><title>triton_tem_fused__to_copy_add_addmm_cat_elu_native_layer_norm_select_squeeze_t_view_10 25.96 us</title></rect>
+<rect x="895.65" y="97" width="1.31" height="20" fill="#d95f5f" opacity="0.88" rx="2"><title>triton_per_fused__to_copy_native_layer_norm_unsqueeze_view_0 2.76 us</title></rect>
+<rect x="912.30" y="97" width="2.78" height="20" fill="#d95f5f" opacity="0.88" rx="2"><title>triton_per_fused__to_copy_add_native_layer_norm_squeeze_unsqueeze_view_1 5.84 us</title></rect>
+<rect x="975.92" y="97" width="9.10" height="20" fill="#d95f5f" opacity="0.88" rx="2"><title>triton_per_fused__to_copy_add_native_layer_norm_squeeze_unsqueeze_view_2 19.12 us</title></rect>
+<text x="34" y="159" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#2a9d8f" text-anchor="start">custom_matmul</text>
+<rect x="190" y="136" width="900" height="30" fill="#f8fafc" stroke="#e5e7eb" rx="3"/>
+<rect x="207.69" y="141" width="68.07" height="20" fill="#2a9d8f" opacity="0.88" rx="2"><title>_large_batch_per_token_broadcast_weight_matmul_triton 143.08 us</title></rect>
+<rect x="290.49" y="141" width="13.43" height="20" fill="#2a9d8f" opacity="0.88" rx="2"><title>_large_batch_per_token_broadcast_weight_matmul_triton 28.24 us</title></rect>
+<rect x="303.92" y="141" width="13.51" height="20" fill="#2a9d8f" opacity="0.88" rx="2"><title>_large_batch_per_token_broadcast_weight_matmul_triton 28.40 us</title></rect>
+<rect x="317.43" y="141" width="13.49" height="20" fill="#2a9d8f" opacity="0.88" rx="2"><title>_large_batch_per_token_broadcast_weight_matmul_triton 28.36 us</title></rect>
+<rect x="348.02" y="141" width="13.57" height="20" fill="#2a9d8f" opacity="0.88" rx="2"><title>_large_batch_per_token_broadcast_weight_matmul_triton 28.52 us</title></rect>
+<rect x="367.98" y="141" width="13.38" height="20" fill="#2a9d8f" opacity="0.88" rx="2"><title>_large_batch_per_token_broadcast_weight_matmul_triton 28.12 us</title></rect>
+<rect x="381.36" y="141" width="2.76" height="20" fill="#2a9d8f" opacity="0.88" rx="2"><title>_large_batch_per_token_broadcast_weight_matmul_triton 5.80 us</title></rect>
+<rect x="384.12" y="141" width="2.84" height="20" fill="#2a9d8f" opacity="0.88" rx="2"><title>_large_batch_per_token_broadcast_weight_matmul_triton 5.96 us</title></rect>
+<rect x="406.74" y="141" width="13.55" height="20" fill="#2a9d8f" opacity="0.88" rx="2"><title>_large_batch_per_token_broadcast_weight_matmul_triton 28.48 us</title></rect>
+<rect x="426.33" y="141" width="48.39" height="20" fill="#2a9d8f" opacity="0.88" rx="2"><title>_large_batch_per_token_broadcast_weight_matmul_triton 101.72 us</title></rect>
+<rect x="474.72" y="141" width="48.32" height="20" fill="#2a9d8f" opacity="0.88" rx="2"><title>_large_batch_per_token_broadcast_weight_matmul_triton 101.56 us</title></rect>
+<rect x="545.68" y="141" width="67.90" height="20" fill="#2a9d8f" opacity="0.88" rx="2"><title>_large_batch_per_token_broadcast_weight_matmul_triton 142.72 us</title></rect>
+<rect x="899.22" y="141" width="1.66" height="20" fill="#2a9d8f" opacity="0.88" rx="2"><title>_large_batch_per_token_broadcast_weight_matmul_triton 3.48 us</title></rect>
+<rect x="900.88" y="141" width="2.87" height="20" fill="#2a9d8f" opacity="0.88" rx="2"><title>_large_batch_per_token_broadcast_weight_matmul_triton 6.04 us</title></rect>
+<rect x="903.75" y="141" width="2.84" height="20" fill="#2a9d8f" opacity="0.88" rx="2"><title>_large_batch_per_token_broadcast_weight_matmul_triton 5.96 us</title></rect>
+<rect x="909.33" y="141" width="2.97" height="20" fill="#2a9d8f" opacity="0.88" rx="2"><title>_large_batch_per_token_broadcast_weight_matmul_triton 6.24 us</title></rect>
+<rect x="915.08" y="141" width="3.42" height="20" fill="#2a9d8f" opacity="0.88" rx="2"><title>_large_batch_per_token_broadcast_weight_matmul_triton 7.20 us</title></rect>
+<rect x="918.50" y="141" width="13.72" height="20" fill="#2a9d8f" opacity="0.88" rx="2"><title>_large_batch_per_token_broadcast_weight_matmul_triton 28.84 us</title></rect>
+<rect x="932.22" y="141" width="13.32" height="20" fill="#2a9d8f" opacity="0.88" rx="2"><title>_large_batch_per_token_broadcast_weight_matmul_triton 28.00 us</title></rect>
+<rect x="962.42" y="141" width="13.49" height="20" fill="#2a9d8f" opacity="0.88" rx="2"><title>_large_batch_per_token_broadcast_weight_matmul_triton 28.36 us</title></rect>
+<rect x="985.01" y="141" width="48.47" height="20" fill="#2a9d8f" opacity="0.88" rx="2"><title>_large_batch_per_token_broadcast_weight_matmul_triton 101.88 us</title></rect>
+<rect x="1033.48" y="141" width="48.22" height="20" fill="#2a9d8f" opacity="0.88" rx="2"><title>_large_batch_per_token_broadcast_weight_matmul_triton 101.36 us</title></rect>
+<text x="34" y="203" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#8a63d2" text-anchor="start">attention</text>
+<rect x="190" y="180" width="900" height="30" fill="#f8fafc" stroke="#e5e7eb" rx="3"/>
+<rect x="330.93" y="185" width="17.09" height="20" fill="#8a63d2" opacity="0.88" rx="2"><title>_large_batch_lt32_seq_lt32_d_flash_attention_triton 35.92 us</title></rect>
+<rect x="386.95" y="185" width="19.79" height="20" fill="#8a63d2" opacity="0.88" rx="2"><title>_large_batch_lt32_seq_lt32_d_flash_attention_triton 41.60 us</title></rect>
+<rect x="906.59" y="185" width="2.74" height="20" fill="#8a63d2" opacity="0.88" rx="2"><title>_flash_attention_unmasked_compact_align 5.76 us</title></rect>
+<rect x="945.54" y="185" width="16.88" height="20" fill="#8a63d2" opacity="0.88" rx="2"><title>_large_batch_lt32_seq_lt32_d_flash_attention_triton 35.48 us</title></rect>
+<text x="34" y="247" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#c18d19" text-anchor="start">dense/elementwise</text>
+<rect x="190" y="224" width="900" height="30" fill="#f8fafc" stroke="#e5e7eb" rx="3"/>
+<rect x="523.04" y="229" width="22.65" height="20" fill="#c18d19" opacity="0.88" rx="2"><title>triton_poi_fused_mul_silu_squeeze_unsqueeze_3 47.60 us</title></rect>
+<rect x="668.56" y="229" width="5.52" height="20" fill="#c18d19" opacity="0.88" rx="2"><title>triton_tem_fused_addmm_elu_t_11 11.60 us</title></rect>
+<rect x="674.08" y="229" width="3.06" height="20" fill="#c18d19" opacity="0.88" rx="2"><title>triton_poi_fused_addmm_elu_12 6.44 us</title></rect>
+<rect x="677.14" y="229" width="3.33" height="20" fill="#c18d19" opacity="0.88" rx="2"><title>triton_tem_fused_add_addmm_clamp_div_elu_squeeze_t_13 7.00 us</title></rect>
+<rect x="693.05" y="229" width="5.35" height="20" fill="#c18d19" opacity="0.88" rx="2"><title>triton_tem_fused_addmm_elu_t_11 11.24 us</title></rect>
+<rect x="698.40" y="229" width="3.12" height="20" fill="#c18d19" opacity="0.88" rx="2"><title>triton_poi_fused_addmm_elu_12 6.56 us</title></rect>
+<rect x="701.52" y="229" width="3.31" height="20" fill="#c18d19" opacity="0.88" rx="2"><title>triton_tem_fused_add_addmm_clamp_div_elu_squeeze_t_14 6.96 us</title></rect>
+<rect x="717.52" y="229" width="5.18" height="20" fill="#c18d19" opacity="0.88" rx="2"><title>triton_tem_fused_addmm_elu_t_11 10.88 us</title></rect>
+<rect x="722.70" y="229" width="3.06" height="20" fill="#c18d19" opacity="0.88" rx="2"><title>triton_poi_fused_addmm_elu_12 6.44 us</title></rect>
+<rect x="725.76" y="229" width="3.29" height="20" fill="#c18d19" opacity="0.88" rx="2"><title>triton_tem_fused_add_addmm_clamp_div_elu_squeeze_t_15 6.92 us</title></rect>
+<rect x="741.45" y="229" width="5.35" height="20" fill="#c18d19" opacity="0.88" rx="2"><title>triton_tem_fused_addmm_elu_t_11 11.24 us</title></rect>
+<rect x="746.79" y="229" width="3.10" height="20" fill="#c18d19" opacity="0.88" rx="2"><title>triton_poi_fused_addmm_elu_12 6.52 us</title></rect>
+<rect x="749.89" y="229" width="3.31" height="20" fill="#c18d19" opacity="0.88" rx="2"><title>triton_tem_fused_addmm_elu_t_16 6.96 us</title></rect>
+<rect x="753.21" y="229" width="2.68" height="20" fill="#c18d19" opacity="0.88" rx="2"><title>triton_poi_fused_add_addmm_clamp_div_squeeze_17 5.64 us</title></rect>
+<rect x="768.41" y="229" width="5.33" height="20" fill="#c18d19" opacity="0.88" rx="2"><title>triton_tem_fused_addmm_elu_t_11 11.20 us</title></rect>
+<rect x="773.74" y="229" width="3.01" height="20" fill="#c18d19" opacity="0.88" rx="2"><title>triton_poi_fused_addmm_elu_12 6.32 us</title></rect>
+<rect x="776.75" y="229" width="3.23" height="20" fill="#c18d19" opacity="0.88" rx="2"><title>triton_tem_fused_addmm_elu_t_16 6.80 us</title></rect>
+<rect x="779.98" y="229" width="2.76" height="20" fill="#c18d19" opacity="0.88" rx="2"><title>triton_poi_fused_add_addmm_clamp_div_squeeze_18 5.80 us</title></rect>
+<rect x="795.40" y="229" width="5.31" height="20" fill="#c18d19" opacity="0.88" rx="2"><title>triton_tem_fused_addmm_elu_t_11 11.16 us</title></rect>
+<rect x="800.70" y="229" width="3.01" height="20" fill="#c18d19" opacity="0.88" rx="2"><title>triton_poi_fused_addmm_elu_12 6.32 us</title></rect>
+<rect x="803.71" y="229" width="3.16" height="20" fill="#c18d19" opacity="0.88" rx="2"><title>triton_tem_fused_addmm_elu_t_16 6.64 us</title></rect>
+<rect x="806.87" y="229" width="2.76" height="20" fill="#c18d19" opacity="0.88" rx="2"><title>triton_poi_fused_add_addmm_clamp_div_squeeze_19 5.80 us</title></rect>
+<rect x="822.27" y="229" width="5.29" height="20" fill="#c18d19" opacity="0.88" rx="2"><title>triton_tem_fused_addmm_elu_t_11 11.12 us</title></rect>
+<rect x="827.56" y="229" width="3.10" height="20" fill="#c18d19" opacity="0.88" rx="2"><title>triton_poi_fused_addmm_elu_12 6.52 us</title></rect>
+<rect x="830.66" y="229" width="3.33" height="20" fill="#c18d19" opacity="0.88" rx="2"><title>triton_tem_fused_add_addmm_clamp_div_elu_squeeze_t_20 7.00 us</title></rect>
+<rect x="846.40" y="229" width="5.31" height="20" fill="#c18d19" opacity="0.88" rx="2"><title>triton_tem_fused_addmm_elu_t_11 11.16 us</title></rect>
+<rect x="851.71" y="229" width="3.16" height="20" fill="#c18d19" opacity="0.88" rx="2"><title>triton_poi_fused_addmm_elu_12 6.64 us</title></rect>
+<rect x="854.86" y="229" width="3.35" height="20" fill="#c18d19" opacity="0.88" rx="2"><title>triton_tem_fused_add_addmm_clamp_div_elu_squeeze_t_21 7.04 us</title></rect>
+<rect x="870.56" y="229" width="5.40" height="20" fill="#c18d19" opacity="0.88" rx="2"><title>triton_tem_fused_addmm_elu_t_11 11.36 us</title></rect>
+<rect x="875.97" y="229" width="3.08" height="20" fill="#c18d19" opacity="0.88" rx="2"><title>triton_poi_fused_addmm_elu_12 6.48 us</title></rect>
+<rect x="879.05" y="229" width="3.33" height="20" fill="#c18d19" opacity="0.88" rx="2"><title>triton_tem_fused_addmm_elu_t_16 7.00 us</title></rect>
+<rect x="882.38" y="229" width="2.32" height="20" fill="#c18d19" opacity="0.88" rx="2"><title>triton_poi_fused_add_addmm_clamp_div_squeeze_22 4.88 us</title></rect>
+<rect x="1081.70" y="229" width="8.30" height="20" fill="#c18d19" opacity="0.88" rx="2"><title>triton_poi_fused_mul_silu_squeeze_unsqueeze_3 47.84 us</title></rect>
+<rect x="190" y="317" width="12" height="12" fill="#d95f5f" rx="2"/>
+<text x="208" y="328" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#555" text-anchor="start">clone_expand/copy</text>
+<rect x="350" y="317" width="12" height="12" fill="#2a9d8f" rx="2"/>
+<text x="368" y="328" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#555" text-anchor="start">custom_matmul</text>
+<rect x="510" y="317" width="12" height="12" fill="#8a63d2" rx="2"/>
+<text x="528" y="328" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#555" text-anchor="start">attention</text>
+<rect x="670" y="317" width="12" height="12" fill="#c18d19" rx="2"/>
+<text x="688" y="328" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#555" text-anchor="start">dense/elementwise</text>
+</svg>

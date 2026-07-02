@@ -1,0 +1,519 @@
+{
+  "args": {
+    "num_streams": 4,
+    "num_rounds": 10,
+    "steps_per_round": 4,
+    "batch": 8192,
+    "dim": 4096,
+    "carry_keep": 40,
+    "carry_mb": 16.0,
+    "out": "results.json"
+  },
+  "records": {
+    "own-no-destroy": [
+      {
+        "tag": "own-no-destroy",
+        "round": 0,
+        "allocated_MB": 64.0,
+        "reserved_MB": 64.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      },
+      {
+        "tag": "own-no-destroy",
+        "round": 1,
+        "allocated_MB": 432.0,
+        "reserved_MB": 432.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      },
+      {
+        "tag": "own-no-destroy",
+        "round": 2,
+        "allocated_MB": 496.0,
+        "reserved_MB": 496.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      },
+      {
+        "tag": "own-no-destroy",
+        "round": 3,
+        "allocated_MB": 560.0,
+        "reserved_MB": 560.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      },
+      {
+        "tag": "own-no-destroy",
+        "round": 4,
+        "allocated_MB": 624.0,
+        "reserved_MB": 624.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      },
+      {
+        "tag": "own-no-destroy",
+        "round": 5,
+        "allocated_MB": 688.0,
+        "reserved_MB": 688.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      },
+      {
+        "tag": "own-no-destroy",
+        "round": 6,
+        "allocated_MB": 752.0,
+        "reserved_MB": 752.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      },
+      {
+        "tag": "own-no-destroy",
+        "round": 7,
+        "allocated_MB": 816.0,
+        "reserved_MB": 816.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      },
+      {
+        "tag": "own-no-destroy",
+        "round": 8,
+        "allocated_MB": 880.0,
+        "reserved_MB": 880.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      },
+      {
+        "tag": "own-no-destroy",
+        "round": 9,
+        "allocated_MB": 944.0,
+        "reserved_MB": 944.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      },
+      {
+        "tag": "own-no-destroy",
+        "round": 10,
+        "allocated_MB": 1008.0,
+        "reserved_MB": 1008.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      }
+    ],
+    "own-recreate": [
+      {
+        "tag": "own-recreate",
+        "round": 0,
+        "allocated_MB": 368.0,
+        "reserved_MB": 368.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      },
+      {
+        "tag": "own-recreate",
+        "round": 1,
+        "allocated_MB": 432.0,
+        "reserved_MB": 432.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      },
+      {
+        "tag": "own-recreate",
+        "round": 2,
+        "allocated_MB": 496.0,
+        "reserved_MB": 496.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      },
+      {
+        "tag": "own-recreate",
+        "round": 3,
+        "allocated_MB": 560.0,
+        "reserved_MB": 560.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      },
+      {
+        "tag": "own-recreate",
+        "round": 4,
+        "allocated_MB": 624.0,
+        "reserved_MB": 624.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      },
+      {
+        "tag": "own-recreate",
+        "round": 5,
+        "allocated_MB": 688.0,
+        "reserved_MB": 688.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      },
+      {
+        "tag": "own-recreate",
+        "round": 6,
+        "allocated_MB": 752.0,
+        "reserved_MB": 752.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      },
+      {
+        "tag": "own-recreate",
+        "round": 7,
+        "allocated_MB": 816.0,
+        "reserved_MB": 816.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      },
+      {
+        "tag": "own-recreate",
+        "round": 8,
+        "allocated_MB": 880.0,
+        "reserved_MB": 880.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      },
+      {
+        "tag": "own-recreate",
+        "round": 9,
+        "allocated_MB": 944.0,
+        "reserved_MB": 944.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      },
+      {
+        "tag": "own-recreate",
+        "round": 10,
+        "allocated_MB": 1008.0,
+        "reserved_MB": 1008.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      }
+    ],
+    "own-recreate-distinct": [
+      {
+        "tag": "own-recreate-distinct",
+        "round": 0,
+        "allocated_MB": 368.0,
+        "reserved_MB": 368.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      },
+      {
+        "tag": "own-recreate-distinct",
+        "round": 1,
+        "allocated_MB": 432.0,
+        "reserved_MB": 432.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      },
+      {
+        "tag": "own-recreate-distinct",
+        "round": 2,
+        "allocated_MB": 800.0,
+        "reserved_MB": 800.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      },
+      {
+        "tag": "own-recreate-distinct",
+        "round": 3,
+        "allocated_MB": 864.0,
+        "reserved_MB": 864.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      },
+      {
+        "tag": "own-recreate-distinct",
+        "round": 4,
+        "allocated_MB": 928.0,
+        "reserved_MB": 928.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      },
+      {
+        "tag": "own-recreate-distinct",
+        "round": 5,
+        "allocated_MB": 992.0,
+        "reserved_MB": 992.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      },
+      {
+        "tag": "own-recreate-distinct",
+        "round": 6,
+        "allocated_MB": 1056.0,
+        "reserved_MB": 1056.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      },
+      {
+        "tag": "own-recreate-distinct",
+        "round": 7,
+        "allocated_MB": 1120.0,
+        "reserved_MB": 1120.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      },
+      {
+        "tag": "own-recreate-distinct",
+        "round": 8,
+        "allocated_MB": 1184.0,
+        "reserved_MB": 1184.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      },
+      {
+        "tag": "own-recreate-distinct",
+        "round": 9,
+        "allocated_MB": 1248.0,
+        "reserved_MB": 1248.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      },
+      {
+        "tag": "own-recreate-distinct",
+        "round": 10,
+        "allocated_MB": 1312.0,
+        "reserved_MB": 1312.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      }
+    ],
+    "pool-cached": [
+      {
+        "tag": "pool-cached",
+        "round": 0,
+        "allocated_MB": 672.0,
+        "reserved_MB": 672.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      },
+      {
+        "tag": "pool-cached",
+        "round": 1,
+        "allocated_MB": 736.0,
+        "reserved_MB": 736.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      },
+      {
+        "tag": "pool-cached",
+        "round": 2,
+        "allocated_MB": 800.0,
+        "reserved_MB": 800.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      },
+      {
+        "tag": "pool-cached",
+        "round": 3,
+        "allocated_MB": 864.0,
+        "reserved_MB": 864.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      },
+      {
+        "tag": "pool-cached",
+        "round": 4,
+        "allocated_MB": 928.0,
+        "reserved_MB": 928.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      },
+      {
+        "tag": "pool-cached",
+        "round": 5,
+        "allocated_MB": 992.0,
+        "reserved_MB": 992.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      },
+      {
+        "tag": "pool-cached",
+        "round": 6,
+        "allocated_MB": 1056.0,
+        "reserved_MB": 1056.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      },
+      {
+        "tag": "pool-cached",
+        "round": 7,
+        "allocated_MB": 1120.0,
+        "reserved_MB": 1120.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      },
+      {
+        "tag": "pool-cached",
+        "round": 8,
+        "allocated_MB": 1184.0,
+        "reserved_MB": 1184.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      },
+      {
+        "tag": "pool-cached",
+        "round": 9,
+        "allocated_MB": 1248.0,
+        "reserved_MB": 1248.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      },
+      {
+        "tag": "pool-cached",
+        "round": 10,
+        "allocated_MB": 1312.0,
+        "reserved_MB": 1312.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      }
+    ],
+    "pool-fresh": [
+      {
+        "tag": "pool-fresh",
+        "round": 0,
+        "allocated_MB": 672.0,
+        "reserved_MB": 672.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      },
+      {
+        "tag": "pool-fresh",
+        "round": 1,
+        "allocated_MB": 812.0,
+        "reserved_MB": 812.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      },
+      {
+        "tag": "pool-fresh",
+        "round": 2,
+        "allocated_MB": 1180.0,
+        "reserved_MB": 1180.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      },
+      {
+        "tag": "pool-fresh",
+        "round": 3,
+        "allocated_MB": 1548.0,
+        "reserved_MB": 1548.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      },
+      {
+        "tag": "pool-fresh",
+        "round": 4,
+        "allocated_MB": 1916.0,
+        "reserved_MB": 1916.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      },
+      {
+        "tag": "pool-fresh",
+        "round": 5,
+        "allocated_MB": 2284.0,
+        "reserved_MB": 2284.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      },
+      {
+        "tag": "pool-fresh",
+        "round": 6,
+        "allocated_MB": 2652.0,
+        "reserved_MB": 2652.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      },
+      {
+        "tag": "pool-fresh",
+        "round": 7,
+        "allocated_MB": 3020.0,
+        "reserved_MB": 3020.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      },
+      {
+        "tag": "pool-fresh",
+        "round": 8,
+        "allocated_MB": 3084.0,
+        "reserved_MB": 3084.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      },
+      {
+        "tag": "pool-fresh",
+        "round": 9,
+        "allocated_MB": 3148.0,
+        "reserved_MB": 3148.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      },
+      {
+        "tag": "pool-fresh",
+        "round": 10,
+        "allocated_MB": 3212.0,
+        "reserved_MB": 3212.0,
+        "inactive_split_MB": 0.0,
+        "num_alloc_retries": 0,
+        "num_ooms": 0
+      }
+    ]
+  }
+}
