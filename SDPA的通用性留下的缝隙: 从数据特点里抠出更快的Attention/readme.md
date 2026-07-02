@@ -222,9 +222,31 @@ kernel 里每个 CTA 读 K 的地址是 `k_ptr + bid * stride_k_b + hid * stride
 
 一句话: 物化 expand 相当于把"逻辑上共享、本该被 L2 复用"的 K/V, 变成了"每个 batch 一份、必须逐份从 DRAM 读"的独立拷贝. 折叠掉之后, `stride=0` 才让硬件 L2 真正吃到了跨 batch 的复用.
 
+## 还没完: MFU 才 20%, tensor core 还在空转
+
+访存 bound 解掉了, 但 attention kernel 也就压到 1.40ms. 回头算它的 MFU —— `76e9 / 1.4e-3 ≈ 54 TFLOP/s`, 对 274 峰值只有 **~20%**. 说实话这水位还是偏低, 主流带 mask 的 attention 能高不少. 再看一眼就知道卡在哪: **q 序列只有 15**.
+
+flash-attention 的写法是"一个 (batch, head) 起一个 block, 在 kv 维上循环". q 只有 15, 意味着每个 block 里那两个 matmul(QK 和 PV)的 M 维只有 15(对齐到 16). 而 tensor core 的 MMA 天生是奔着 M≥64 那种大块设计的, M=16 时脉动阵列大半是空转的 —— 指令发了, 每条却只算了一点点. 13600 个这样的小 block, 既喂不饱算力, 调度开销也不小.
+
+怎么把 M 撑起来? 又回到那个数据特点: **K/V 跨 batch 共享**. 既然所有 batch 的 K/V 是同一份, 就可以把 G 个 batch 的 q **摞在一起**, 对着同一份 K/V 做一次大 matmul:
+
+```
+原来: 每个 (batch, head) 一个 block, M = 16           -> 13600 个小 block, tensor core 空转
+现在: 每个 (head, G个batch) 一个 block, M = G*16 = 128 -> block 数 /G, 每个都喂饱
+```
+
+实现上就是把 `(G, 16, D)` 的 q 用 `tl.reshape` 摞成 `(G*16, D)`, 和共享的 K `(D, BLOCK_KV)` 做 `tl.dot` 得到 `(G*16, BLOCK_KV)`; gamma 对这 G 个 batch 是同一份(广播), pad 每个 batch 一条(按 batch 展开成对应的行). K/V 每个 block 依然只 load 一次, 但现在复用给 G*16 行, 数据复用更彻底.
+
+G 取多少? 让 `M = G * next_pow2(q)` 落在 128 附近最舒服(q=15 -> G=8 -> M=128), 再大就撞 shared memory 上限了. 扫一圈 `(G, BLOCK_KV, num_warps, num_stages)`, 最优是 `G=8, BLOCK_KV=64, warps=4, stages=1` —— 有意思的是 `stages=1`(不做 software pipelining)反而最快, kv 循环不算长, 多级流水那点 SRAM/占用开销不划算.
+
+![batch grouping: 把 M 从 16 撑到 128](mfu_batchgroup.png)
+
+结果: attention kernel **1.40ms -> 0.46ms**, MFU **~20% -> ~61%**, 快了 3 倍; 整图 GPU 再从 ~167ms 降到 ~148ms. 对一个 q=15 的带 mask attention, 60% 的 MFU 就正常多了. 落到优化器里, 我按 `q_seq_len <= 32 且 K/V 跨 batch 共享` 自动切到这个 grouped kernel, q 长的正常 attention 仍走原来那版.
+
 ## 总结
 
 - **优先挑瓶颈集中在大头的 case 下手**. 一个 attention 就占了 ~60%, 这比几十上百个小 kernel 扎堆、每个只省几微秒的场景好做太多, 直接抓大放小、火力全压这一块.
 - **能广播就别真物化**. 这个 case 的两处优化本质是同一句话: mask 是 `gamma ⊗ pad`、K/V 是跨 batch 共享, 都是"逻辑上广播"的东西, 用 stride=0 的 view 就地读就行, 别摊成一大块真张量. 少一次物化, 既省掉那趟几个 GB 的读写, 又保住了 L2 复用 —— 减少对存储的访问压力, 往往比把 kernel 本身写快更值钱.
+- **tensor core 喂不饱, 就想办法把 M 堆大**. q 短导致 M 只有 16 时, 利用 K/V 跨 batch 共享, 把 G 个 batch 摞成一次 M=128 的大 matmul, 是把 MFU 从 20% 拉到 60% 的关键 —— 说到底还是"用广播换复用"的延伸.
 
-最后回到开头那个 MFU: attention kernel 从 ~5ms 干到 1.40ms, MFU 从 ~5% 提到了 ~20%(`76e9 / 1.4e-3 ≈ 54 TFLOP/s`, 对 274 峰值), 访存 bound 基本解掉了. 回头看, 这一路真正花力气的地方, 不是把 kernel 写多快, 而是先看清数据本身的两个特点 —— mask 可分离、K/V 跨 batch 共享 —— 再顺着它们, 把通用 SDPA 接不住的那部分活儿接过来.
+最后回到开头那个 MFU: attention kernel 从 ~5ms 一路干到 0.46ms, MFU 从 ~5% -> ~20%(解掉访存 bound)-> ~61%(batch grouping 喂饱 tensor core). 回头看, 这一路真正花力气的地方, 不是把 kernel 写多快, 而是先看清数据本身的两个特点 —— mask 可分离、K/V 跨 batch 共享 —— 再顺着它们, 把通用 SDPA 接不住的那部分活儿接过来.
