@@ -1,10 +1,12 @@
 # SDPA 的通用性留下的缝隙: 从数据特点里抠出更快的 Attention
 
-最近接手一个性能稀烂的推理服务, 老规矩, 先抓个 timeline 看大头在哪. 一眼就看到 attention 那一坨占了差不多一次前向的 60%:
+最近接手一个性能稀烂的推理服务, 老规矩, 先抓个 timeline 看大头在哪. 
+![alt text](image.png)
+一眼就看到 attention 那一坨占了差不多一次前向的 60%:
 
 ![baseline timeline: attention 占比](attention_share.png)
 
-attention kernel 本身占 30%, 再加上它前面那堆给 K/V、mask 做 layer_norm / expand / pad 的预处理, 合起来快到 60% 了. 这块不啃, 别的都是零头.
+attention kernel 本身占 30%, 再加上它前面那堆给 K/V、mask 做 layer_norm / expand / pad 的预处理, 合起来快到 60% 了. 我最喜欢这种情况, 有大头可以啃, 不会像遇到一堆碎kernel一样感觉有劲无处使.
 
 顺着 fx graph 把这几个 attention 节点扒出来看形状(动态 batch, 取晚高峰 `batch=1700`). 这是一个搜推里很常见的 target attention: 少量 target item 去 attend 一段较长的上下文:
 
@@ -15,9 +17,9 @@ mask  : (1700, 8, 15, 1458)   # 加性 mask
 out   : (1700, 8, 15, 64)
 ```
 
-先给它估个水位, 算个 MFU. 一次 sdpa 的计算量大约是 `4 * B*H*Q*KV*D ≈ 76 GFLOP`(QK 和 PV 两个 matmul, 各算一次乘一次加). 而线上这个 kernel 一次要 ~5ms, 折下来只有 `76e9 / 5e-3 ≈ 15 TFLOP/s`. Pro 5000 的 fp16 tensorcore 峰值是 274 TFLOPS, 也就是 **MFU 只有 5% 左右**. 这么低, 肯定有得挖.
+先给它估个水位, 算个 MFU. 一次 sdpa 的计算量大约是 `4 * B*H*Q*KV*D ≈ 76 GFLOP`(QK 和 PV 两个 matmul, 各算一次乘一次加). 而线上这个 kernel 一次要 ~5ms, 折下来只有 `76e9 / 5e-3 ≈ 15 TFLOP/s`. Pro 5000 的 fp16 tensorcore 峰值是 274 TFLOPS, 也就是 **MFU 只有 5% 左右**.
 
-那空间到底在哪? 盯着这个 attention 的数据特点看, 有两处"通用 SDPA 接不住"的缝隙, 恰好是手写 kernel 的机会:
+那空间到底在哪? 盯着这个 attention 的数据特点看, 有两处"通用 SDPA 接不住"的corner case, 恰好是哥几个手写 kernel 的机会:
 
 - **mask 是可分离的**(下面会看到它其实是两个小张量的外积), 但 `F.scaled_dot_product_attention` 只能收一张物化好的完整 mask, 没法把两个因子分开传进去 —— 于是那张又大又冗余的 mask 每次都得物化、读一遍.
 - **SDPA 不会 lower 成 Triton**, 走的是固定实现. 而它上游"跨 batch 共享"的 K/V, 为了喂进这个不透明算子, 被 `expand` + 物化成了每个 batch 一份的独立拷贝.
@@ -58,13 +60,13 @@ sdpa = torch.ops.aten.scaled_dot_product_attention.default(to_56, expand_51, exp
 
 2. **K/V 是 `expand` 出来的**. 上下文对每个 batch 其实是同一份, 逻辑上是 `(1, 8, 1458, 64)`, 靠 `expand` 广播到 `(1700, 8, 1458, 64)`.
 
-## 第一个怀疑: mask 被物化, memory bound
+## 首要怀疑点: mask 被物化, memory bound
 
-先算一笔账. 那张 `(1700, 8, 15, 1458)` 的 bf16 mask, 光是它自己就是 `1700*8*15*1458*2 ≈ 595 MB`. 每次前向都要把这 595MB 从 HBM 读一遍(还得先写一遍). 而 attention 本身的计算量并不大(q 只有 15). 直觉上, 这就是个访存 bound, 大头花在读这张又大又冗余的 mask 上 — 毕竟它本质上只是 `(batch, 1458)` 这么点信息, 却被摊平成了 8×15 倍.
+那张 `(1700, 8, 15, 1458)` 的 bf16 mask, 光是它自己就是 `1700*8*15*1458*2 ≈ 595 MB`. 每次前向都要把这 595MB 从 HBM 读一遍(还得先写一遍). 而 attention 本身的计算量并不大(q 只有 15). 直觉上, 这就是个访存 bound, 大头花在读这张又大又冗余的 mask 上 — 毕竟它本质上只是 `(batch, 1458)` 这么点信息, 却被摊平成了 8×15 倍.
 
 思路很自然: **别物化这张 mask, 在 kernel 里现算**. 反正它是 `gamma[h,i] * pad[b,j]`, 两个因子都很小(gamma 才 8×15=120 个数, pad 每个样本一条 1458 的向量), 完全可以进 kernel 里 on-the-fly 乘出来.
 
-## 动手: 把 gamma * pad 塞进 flash-attention kernel
+## just do it: 把 gamma * pad 塞进 flash-attention kernel
 
 在标准 flash-attention 的 kv 循环里, 每次迭代加载一块 K/V 做 QK^T. 我在这基础上, **每次迭代顺手把 gamma 和 pad 的对应片段拿出来, 外积成这一块的 bias 加到分数上**, 而不是去读物化好的 mask tile:
 
