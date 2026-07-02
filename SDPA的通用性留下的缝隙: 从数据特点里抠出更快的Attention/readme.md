@@ -203,7 +203,7 @@ call__sep_mask_attn(buf1194, buf1195, buf1196, ...,
 1. **上游那个物化 expand 的 kernel 直接没了**(4.82 -> 0). expand 物化本身就是实打实的 5GB 读写, 这块凭空省掉.
 2. **attention kernel 自己从 4.18 掉到 1.40**, 快了 3 倍. 这个才是最反直觉的.
 
-这块业务模型端到端的整图 GPU busy time 也从 ~336ms 掉到 ~167ms, 差不多砍半, 跟这里的微基准对得上.
+这块业务模型端到端的整图 GPU busy time 也从 ~336ms 掉到 ~167ms, 差不多砍半, 跟这里的微基准对得上.(数值上 fold 版和 F.sdpa 的最大误差 0.0039, fp16 下放心用.)
 
 ## 为什么 attention 自己也快了 3 倍
 
@@ -218,10 +218,7 @@ kernel 里每个 CTA 读 K 的地址是 `k_ptr + bid * stride_k_b + hid * stride
 
 ## 总结
 
-1. **别只盯着自己怀疑的那个点**. 我一开始笃定是 mask 物化, 干掉之后只降了 27%, 才发现旁边的 expand 物化(4.82ms)比 mask(0.71ms)大一个量级. 分段计时(mask / expand / attention 各测一段)是快速定位的关键.
-2. **喂给不透明算子的 `expand`, 很可能会被 inductor 物化**(这是我的猜想: 我的算子本身支持 stride, 但 inductor 遇到自定义 op / fallback 算子时似乎倾向于把广播 view realize 成连续张量). 如果被摊平的维度很大(这里是 batch=1700), 代价就是几个 GB 的额外读写. 遇到类似情况, 值得去 dump 出来的 wrapper.cpp 里核对一下算子到底拿到的是不是 stride=0 的共享张量.
-3. **对策是把 expand 前的张量直接接进 op**, 让 kernel 内部用 `stride=0` 去读共享数据, 而不是让上游先物化. 匹配时 unwrap 掉 batch-expand, wrapper 里把 size==1 的维 stride 置 0.
-4. **物化不只贵在那一下的读写, 还会破坏 L2 复用**. 同一份数据被复制成 N 份独立拷贝后, 消费它的 kernel 也会从"L2 命中"退化成"打满 DRAM". 所以折叠 expand 是一石二鸟: 省掉物化 kernel + 让 attention 自己也回到 L2。
-5. 数字: 这段 attention 从 baseline 的 12.26ms 降到 1.40ms, 其中 attention kernel 本身 6.73 -> 1.40ms. 数值上 fold 版和 F.sdpa 的最大误差 0.0039 (fp16), 在容忍范围内.
+- **优先挑瓶颈集中在大头的 case 下手**. 一个 attention 就占了 ~60%, 这比几十上百个小 kernel 扎堆、每个只省几微秒的场景好做太多, 直接抓大放小、火力全压这一块.
+- **能广播就别真物化**. 这个 case 的两处优化本质是同一句话: mask 是 `gamma ⊗ pad`、K/V 是跨 batch 共享, 都是"逻辑上广播"的东西, 用 stride=0 的 view 就地读就行, 别摊成一大块真张量. 少一次物化, 既省掉那趟几个 GB 的读写, 又保住了 L2 复用 —— 减少对存储的访问压力, 往往比把 kernel 本身写快更值钱.
 
 最后回到开头那个 MFU: attention kernel 从 ~5ms 干到 1.40ms, MFU 从 ~5% 提到了 ~20%(`76e9 / 1.4e-3 ≈ 54 TFLOP/s`, 对 274 峰值), 访存 bound 基本解掉了. 回头看, 这一路真正花力气的地方, 不是把 kernel 写多快, 而是先看清数据本身的两个特点 —— mask 可分离、K/V 跨 batch 共享 —— 再顺着它们, 把通用 SDPA 接不住的那部分活儿接过来.
