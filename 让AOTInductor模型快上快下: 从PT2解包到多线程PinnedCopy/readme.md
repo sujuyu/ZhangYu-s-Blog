@@ -153,7 +153,7 @@ CUDA 里一个很常见的经验是: 普通的 pageable host memory 允许操作
 
 我暗自开心的时候, "这个思路搞不好能给 PyTorch 提个 PR". 可惜天下英雄如过江之鲫, 翻看最近的 commit 后, 却发现一个多月前已经有人跑在我们前面了: PR [#186258](https://github.com/pytorch/pytorch/pull/186258) 引入了双 pinned staging buffer, commit 是 `e3a7019566d`; 后续 [#193249](https://github.com/pytorch/pytorch/pull/193249) 又把 H2D stream 改成了每个 device 共享.
 
-本文最初的实验环境是 PyTorch 2.12, 它还不包含这两个 PR. PyTorch 2.13 已经包含第一个 pinned staging PR [#186258](https://github.com/pytorch/pytorch/pull/186258), 而第二个共享 stream PR [#193249](https://github.com/pytorch/pytorch/pull/193249) 当时仍只在 main. 为了测试包含两项改动的上游实现, 我在本地编译了最新的 PyTorch main 分支. 这套实现使用双 pinned buffer 和单线程 CPU staging, 可以通过环境变量开启:
+本文最初的实验环境是 PyTorch 2.12, 它还不包含这两个 PR. PyTorch 2.14 release line 自 `v2.14.0-rc1` 起包含第一个 pinned staging PR [#186258](https://github.com/pytorch/pytorch/pull/186258), 而第二个共享 stream PR [#193249](https://github.com/pytorch/pytorch/pull/193249) 当时仍只在 main. 为了测试包含两项改动的上游实现, 我在本地编译了最新的 PyTorch main 分支. 这套实现使用双 pinned buffer 和单线程 CPU staging, 可以通过环境变量开启:
 
 ```bash
 export AOTI_COPY_USE_PINNED_ASYNC=1
