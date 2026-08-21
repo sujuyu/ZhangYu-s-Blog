@@ -172,29 +172,6 @@ def pinned_double_buffer():
     save(fig, "pinned_double_buffer.png")
 
 
-def bandwidth_budget():
-    labels = ["Pageable\nH2D", "Pinned H2D\n(trace)", "Pinned H2D\n(microbench)",
-              "1-ch memcpy\npayload ceiling**", "DDR4-3200\n1-ch bus*",
-              "PCIe 4 x16\ntheory*"]
-    values = [9.0, 22.0, 26.0, 12.8, 25.6, 31.5]
-    colors = [RED, BLUE, GREEN, CYAN, ORANGE, PURPLE]
-    fig, ax = plt.subplots(figsize=(10.2, 5.8))
-    bars = ax.barh(labels, values, color=colors, height=0.62)
-    for b, v in zip(bars, values):
-        ax.text(v + 0.5, b.get_y() + b.get_height() / 2, f"{v:g} GB/s",
-                va="center", weight="bold", color=TEXT)
-    ax.set_xlim(0, 35)
-    ax.set_xlabel("Bandwidth")
-    ax.set_title("Measured transfer rates vs. theoretical ceilings")
-    ax.grid(axis="x", color=GRID, alpha=0.7)
-    ax.spines[["top", "right"]].set_visible(False)
-    ax.text(0, -1.02,
-            "* Theory is not an application measurement.  ** Ideal bus/2 for one read + one write.",
-            color=TEXT, fontsize=9)
-    ax.invert_yaxis()
-    save(fig, "bandwidth_budget.png")
-
-
 def weight_coalescing():
     fig, axes = plt.subplots(2, 1, figsize=(11, 5.6), gridspec_kw={"hspace": 0.55})
     fig.patch.set_facecolor(PAPER)
@@ -282,6 +259,5 @@ if __name__ == "__main__":
     pt2_loader_flow()
     runner_chain()
     pinned_double_buffer()
-    bandwidth_budget()
     weight_coalescing()
     optimization_waterfall()

@@ -4,6 +4,7 @@
 
 ### 文章列表 (按更新时间倒序)
 
+- [从TorchScript到AOTInductor: 一次高并发推理链路的重构](https://github.com/sujuyu/ZhangYu-s-Blog/tree/main/%E4%BB%8ETorchScript%E5%88%B0AOTInductor%3A%20%E4%B8%80%E6%AC%A1%E9%AB%98%E5%B9%B6%E5%8F%91%E6%8E%A8%E7%90%86%E9%93%BE%E8%B7%AF%E7%9A%84%E9%87%8D%E6%9E%84)
 - [SDPA的通用性留下的缝隙: 从数据特点里抠出更快的Attention](https://github.com/sujuyu/ZhangYu-s-Blog/tree/main/SDPA%E7%9A%84%E9%80%9A%E7%94%A8%E6%80%A7%E7%95%99%E4%B8%8B%E7%9A%84%E7%BC%9D%E9%9A%99%3A%20%E4%BB%8E%E6%95%B0%E6%8D%AE%E7%89%B9%E7%82%B9%E9%87%8C%E6%8A%A0%E5%87%BA%E6%9B%B4%E5%BF%AB%E7%9A%84Attention)
 - [SM120上的Triton TMA入门](https://github.com/sujuyu/ZhangYu-s-Blog/tree/main/SM120%E4%B8%8A%E7%9A%84Triton%20TMA%E5%85%A5%E9%97%A8)
 - [大Batch一上来就IMA：一次Triton int32索引溢出的排查](https://github.com/sujuyu/ZhangYu-s-Blog/tree/main/%E5%A4%A7Batch%E4%B8%80%E4%B8%8A%E6%9D%A5%E5%B0%B1IMA%EF%BC%9A%E4%B8%80%E6%AC%A1Triton%20int32%E7%B4%A2%E5%BC%95%E6%BA%A2%E5%87%BA%E7%9A%84%E6%8E%92%E6%9F%A5)
