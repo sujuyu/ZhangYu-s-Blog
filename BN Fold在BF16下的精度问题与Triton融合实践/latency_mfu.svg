@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="540" viewBox="0 0 1400 540">
+<rect width="100%" height="100%" fill="white"/>
+<style>
+  text { font-family: Arial, Helvetica, sans-serif; }
+  .title { font-size: 23px; font-weight: 700; }
+  .subtitle { font-size: 14px; fill: #555; }
+  .label { font-size: 13px; }
+  .small { font-size: 12px; }
+  .axis { stroke: #333; stroke-width: 1.2; }
+  .grid { stroke: #999; stroke-width: 0.7; opacity: 0.25; }
+</style>
+
+<text x="700" y="42" text-anchor="middle" class="title">Isolated BN + BMM performance on NVIDIA A100</text>
+<text x="700" y="67" text-anchor="middle" class="subtitle">E=171, K=7926, N=256; median CUDA Event latency</text>
+<text x="360.0" y="106" text-anchor="middle" class="label" font-weight="700">B=128 latency</text>
+<line x1="100" y1="130" x2="100" y2="430" class="axis"/>
+<line x1="100" y1="430" x2="620" y2="430" class="axis"/>
+<line x1="100" y1="430.0" x2="620" y2="430.0" class="grid"/>
+<text x="92" y="434.0" text-anchor="end" class="small">0</text>
+<line x1="100" y1="355.0" x2="620" y2="355.0" class="grid"/>
+<text x="92" y="359.0" text-anchor="end" class="small">0</text>
+<line x1="100" y1="280.0" x2="620" y2="280.0" class="grid"/>
+<text x="92" y="284.0" text-anchor="end" class="small">1</text>
+<line x1="100" y1="205.0" x2="620" y2="205.0" class="grid"/>
+<text x="92" y="209.0" text-anchor="end" class="small">1</text>
+<line x1="100" y1="130.0" x2="620" y2="130.0" class="grid"/>
+<text x="92" y="134.0" text-anchor="end" class="small">2</text>
+<rect x="127.3" y="309.2" width="75.4" height="120.8" rx="3" fill="#457b9d" stroke="#333"/>
+<text x="165.0" y="303.2" text-anchor="middle" class="small">0.64</text>
+<text x="165.0" y="451.0" text-anchor="middle" class="small">Folded BF16</text>
+<rect x="257.3" y="307.0" width="75.4" height="123.0" rx="3" fill="#2a9d8f" stroke="#333"/>
+<text x="295.0" y="301.0" text-anchor="middle" class="small">0.66</text>
+<text x="295.0" y="451.0" text-anchor="middle" class="small">Custom no-BN</text>
+<rect x="387.3" y="277.6" width="75.4" height="152.4" rx="3" fill="#e9c46a" stroke="#333"/>
+<text x="425.0" y="271.6" text-anchor="middle" class="small">0.81</text>
+<text x="425.0" y="451.0" text-anchor="middle" class="small">Custom FP32-BN</text>
+<rect x="517.3" y="157.6" width="75.4" height="272.4" rx="3" fill="#e76f51" stroke="#333"/>
+<text x="555.0" y="151.6" text-anchor="middle" class="small">1.45</text>
+<text x="555.0" y="451.0" text-anchor="middle" class="small">Folded FP32+TF32</text>
+<text x="50" y="280.0" text-anchor="middle" class="small" transform="rotate(-90 50 280.0)">ms</text><text x="1050.0" y="106" text-anchor="middle" class="label" font-weight="700">B=128 MFU</text>
+<line x1="800" y1="130" x2="800" y2="430" class="axis"/>
+<line x1="800" y1="430" x2="1300" y2="430" class="axis"/>
+<line x1="800" y1="430.0" x2="1300" y2="430.0" class="grid"/>
+<text x="792" y="434.0" text-anchor="end" class="small">0</text>
+<line x1="800" y1="355.0" x2="1300" y2="355.0" class="grid"/>
+<text x="792" y="359.0" text-anchor="end" class="small">15</text>
+<line x1="800" y1="280.0" x2="1300" y2="280.0" class="grid"/>
+<text x="792" y="284.0" text-anchor="end" class="small">30</text>
+<line x1="800" y1="205.0" x2="1300" y2="205.0" class="grid"/>
+<text x="792" y="209.0" text-anchor="end" class="small">45</text>
+<line x1="800" y1="130.0" x2="1300" y2="130.0" class="grid"/>
+<text x="792" y="134.0" text-anchor="end" class="small">60</text>
+<rect x="826.2" y="209.0" width="72.5" height="221.0" rx="3" fill="#457b9d" stroke="#333"/>
+<text x="862.5" y="203.0" text-anchor="middle" class="small">44.20</text>
+<text x="862.5" y="451.0" text-anchor="middle" class="small">Folded BF16</text>
+<rect x="951.2" y="213.2" width="72.5" height="216.8" rx="3" fill="#2a9d8f" stroke="#333"/>
+<text x="987.5" y="207.2" text-anchor="middle" class="small">43.37</text>
+<text x="987.5" y="451.0" text-anchor="middle" class="small">Custom no-BN</text>
+<rect x="1076.2" y="254.9" width="72.5" height="175.1" rx="3" fill="#e9c46a" stroke="#333"/>
+<text x="1112.5" y="248.9" text-anchor="middle" class="small">35.02</text>
+<text x="1112.5" y="451.0" text-anchor="middle" class="small">Custom FP32-BN</text>
+<rect x="1201.2" y="234.1" width="72.5" height="195.9" rx="3" fill="#e76f51" stroke="#333"/>
+<text x="1237.5" y="228.1" text-anchor="middle" class="small">39.19</text>
+<text x="1237.5" y="451.0" text-anchor="middle" class="small">Folded FP32+TF32</text>
+<text x="750" y="280.0" text-anchor="middle" class="small" transform="rotate(-90 750 280.0)">% of dtype peak</text><text x="700" y="500" text-anchor="middle" class="small">BF16 MFU uses 312 TFLOP/s peak; TF32 MFU uses 156 TFLOP/s peak.</text>
+</svg>
