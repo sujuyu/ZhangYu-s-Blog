@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="470" viewBox="0 0 900 470">
+<defs>
+  <filter id="wob" x="-6%" y="-6%" width="112%" height="112%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="3" seed="7" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+  <filter id="wob2" x="-6%" y="-6%" width="112%" height="112%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="19" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="1.5" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+  <marker id="arw" viewBox="0 0 10 10" refX="8" refY="5"
+          markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M 0 1 L 9 5 L 0 9 z" fill="#3d3a36"/>
+  </marker>
+</defs>
+<rect width="100%" height="100%" fill="#fdfcf8"/>
+<style>
+  text { font-family: "Comic Sans MS", "Chalkboard SE", "Kaiti SC", "STKaiti", KaiTi, "Noto Sans CJK SC", "Source Han Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; fill: #3d3a36; }
+  .t  { font-size: 21px; font-weight: 700; }
+  .h  { font-size: 15px; font-weight: 700; }
+  .l  { font-size: 13px; }
+  .s  { font-size: 11.5px; fill: #6b6660; }
+  .box { stroke: #3d3a36; stroke-width: 2; stroke-linejoin: round; }
+  .ln { stroke: #3d3a36; stroke-width: 2; fill: none;
+         stroke-linecap: round; stroke-linejoin: round; }
+  .dash { stroke: #3d3a36; stroke-width: 1.8; fill: none;
+           stroke-dasharray: 6 5; stroke-linecap: round; }
+</style>
+<text class="t" x="450.0" y="40" text-anchor="middle" >Qwen3.5-0.8B 的 24 层长这样</text>
+<text class="s" x="450.0" y="64" text-anchor="middle" >3 个 Gated DeltaNet + 1 个全注意力, 重复 6 次</text>
+<g filter="url(#wob2)">
+<rect class="box" x="46" y="92" width="30" height="42" rx="6" fill="#7fb3d5"/>
+<text class="s" x="61.0" y="119" text-anchor="middle" >0</text>
+<rect class="box" x="81" y="92" width="30" height="42" rx="6" fill="#7fb3d5"/>
+<text class="s" x="96.0" y="119" text-anchor="middle" >1</text>
+<rect class="box" x="116" y="92" width="30" height="42" rx="6" fill="#7fb3d5"/>
+<text class="s" x="131.0" y="119" text-anchor="middle" >2</text>
+<rect class="box" x="151" y="92" width="30" height="42" rx="6" fill="#f0a868"/>
+<text class="s" x="166.0" y="119" text-anchor="middle" >3</text>
+<rect class="box" x="186" y="92" width="30" height="42" rx="6" fill="#7fb3d5"/>
+<text class="s" x="201.0" y="119" text-anchor="middle" >4</text>
+<rect class="box" x="221" y="92" width="30" height="42" rx="6" fill="#7fb3d5"/>
+<text class="s" x="236.0" y="119" text-anchor="middle" >5</text>
+<rect class="box" x="256" y="92" width="30" height="42" rx="6" fill="#7fb3d5"/>
+<text class="s" x="271.0" y="119" text-anchor="middle" >6</text>
+<rect class="box" x="291" y="92" width="30" height="42" rx="6" fill="#f0a868"/>
+<text class="s" x="306.0" y="119" text-anchor="middle" >7</text>
+<rect class="box" x="326" y="92" width="30" height="42" rx="6" fill="#7fb3d5"/>
+<text class="s" x="341.0" y="119" text-anchor="middle" >8</text>
+<rect class="box" x="361" y="92" width="30" height="42" rx="6" fill="#7fb3d5"/>
+<text class="s" x="376.0" y="119" text-anchor="middle" >9</text>
+<rect class="box" x="396" y="92" width="30" height="42" rx="6" fill="#7fb3d5"/>
+<text class="s" x="411.0" y="119" text-anchor="middle" >10</text>
+<rect class="box" x="431" y="92" width="30" height="42" rx="6" fill="#f0a868"/>
+<text class="s" x="446.0" y="119" text-anchor="middle" >11</text>
+<rect class="box" x="466" y="92" width="30" height="42" rx="6" fill="#7fb3d5"/>
+<text class="s" x="481.0" y="119" text-anchor="middle" >12</text>
+<rect class="box" x="501" y="92" width="30" height="42" rx="6" fill="#7fb3d5"/>
+<text class="s" x="516.0" y="119" text-anchor="middle" >13</text>
+<rect class="box" x="536" y="92" width="30" height="42" rx="6" fill="#7fb3d5"/>
+<text class="s" x="551.0" y="119" text-anchor="middle" >14</text>
+<rect class="box" x="571" y="92" width="30" height="42" rx="6" fill="#f0a868"/>
+<text class="s" x="586.0" y="119" text-anchor="middle" >15</text>
+<rect class="box" x="606" y="92" width="30" height="42" rx="6" fill="#7fb3d5"/>
+<text class="s" x="621.0" y="119" text-anchor="middle" >16</text>
+<rect class="box" x="641" y="92" width="30" height="42" rx="6" fill="#7fb3d5"/>
+<text class="s" x="656.0" y="119" text-anchor="middle" >17</text>
+<rect class="box" x="676" y="92" width="30" height="42" rx="6" fill="#7fb3d5"/>
+<text class="s" x="691.0" y="119" text-anchor="middle" >18</text>
+<rect class="box" x="711" y="92" width="30" height="42" rx="6" fill="#f0a868"/>
+<text class="s" x="726.0" y="119" text-anchor="middle" >19</text>
+<rect class="box" x="746" y="92" width="30" height="42" rx="6" fill="#7fb3d5"/>
+<text class="s" x="761.0" y="119" text-anchor="middle" >20</text>
+<rect class="box" x="781" y="92" width="30" height="42" rx="6" fill="#7fb3d5"/>
+<text class="s" x="796.0" y="119" text-anchor="middle" >21</text>
+<rect class="box" x="816" y="92" width="30" height="42" rx="6" fill="#7fb3d5"/>
+<text class="s" x="831.0" y="119" text-anchor="middle" >22</text>
+<rect class="box" x="851" y="92" width="30" height="42" rx="6" fill="#f0a868"/>
+<text class="s" x="866.0" y="119" text-anchor="middle" >23</text>
+</g>
+<path class="ln" d="M 43 80 L 43 72 L 184 72 L 184 80" filter="url(#wob2)"/>
+<text class="s" x="113.5" y="65" text-anchor="middle" >一个重复单元</text>
+<g filter="url(#wob)">
+<rect class="box" x="46" y="178" width="390" height="250" rx="6" fill="#eaf3fa"/>
+<rect class="box" x="468" y="178" width="390" height="250" rx="6" fill="#fdf1e4"/>
+</g>
+<text class="h" x="64" y="208" text-anchor="start" >■ 18 层 Gated DeltaNet</text>
+<text class="l" x="64" y="236" text-anchor="start" >线性注意力. 每层带一个 kernel=4 的</text>
+<text class="l" x="64" y="258" text-anchor="start" >depthwise causal Conv1D, 外加 delta rule 递推.</text>
+<text class="l" x="64" y="280" text-anchor="start" ></text>
+<text class="l" x="64" y="302" text-anchor="start" >状态是一个 [16,128,128] 的矩阵,</text>
+<text class="l" x="64" y="324" text-anchor="start" >跟上下文多长完全没关系.</text>
+<text class="l" x="64" y="346" text-anchor="start" ></text>
+<text class="l" x="64" y="368" text-anchor="start" >decode 时只要把这个矩阵原地更新一次,</text>
+<text class="l" x="64" y="390" text-anchor="start" >不需要回看任何历史 token.</text>
+<text class="h" x="486" y="208" text-anchor="start" >■ 6 层 GQA 全注意力</text>
+<text class="l" x="486" y="236" text-anchor="start" >层号 3 / 7 / 11 / 15 / 19 / 23.</text>
+<text class="l" x="486" y="258" text-anchor="start" >8 个 Q head, 2 个 KV head, head_dim 256.</text>
+<text class="l" x="486" y="280" text-anchor="start" ></text>
+<text class="l" x="486" y="302" text-anchor="start" >RoPE 只作用在前 64 维 (partial rotary),</text>
+<text class="l" x="486" y="324" text-anchor="start" >后 192 维原样不动.</text>
+<text class="l" x="486" y="346" text-anchor="start" ></text>
+<text class="l" x="486" y="368" text-anchor="start" >KV cache 随序列线性增长,</text>
+<text class="l" x="486" y="390" text-anchor="start" >decode 时要把整段历史全读一遍. ← 麻烦在这</text>
+<text class="s" x="450.0" y="452" text-anchor="middle" >两种层的缓存机制完全不同, 一个引擎里要同时管好三类缓存</text>
+</svg>
