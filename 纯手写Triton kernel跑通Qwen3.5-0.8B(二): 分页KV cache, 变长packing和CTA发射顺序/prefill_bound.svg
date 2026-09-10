@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="442" viewBox="0 0 900 442">
+<defs>
+  <filter id="wob" x="-6%" y="-6%" width="112%" height="112%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="3" seed="7" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+  <filter id="wob2" x="-6%" y="-6%" width="112%" height="112%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="19" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="1.5" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+  <marker id="arw" viewBox="0 0 10 10" refX="8" refY="5"
+          markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M 0 1 L 9 5 L 0 9 z" fill="#3d3a36"/>
+  </marker>
+  <marker id="arws" viewBox="0 0 10 10" refX="8" refY="5"
+          markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+    <path d="M 0 1 L 9 5 L 0 9 z" fill="#6b6660"/>
+  </marker>
+</defs>
+<rect width="100%" height="100%" fill="#fdfcf8"/>
+<style>
+  text { font-family: "Comic Sans MS", "Chalkboard SE", "Kaiti SC", "STKaiti", KaiTi, "Noto Sans CJK SC", "Source Han Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; fill: #3d3a36; }
+  .t  { font-size: 21px; font-weight: 700; }
+  .h  { font-size: 15px; font-weight: 700; }
+  .l  { font-size: 13px; }
+  .s  { font-size: 11.5px; fill: #6b6660; }
+  .xs { font-size: 10px; fill: #6b6660; }
+  .box { stroke: #3d3a36; stroke-width: 2; stroke-linejoin: round; }
+  .thin { stroke: #3d3a36; stroke-width: 1.2; stroke-linejoin: round; }
+  .ln { stroke: #3d3a36; stroke-width: 2; fill: none;
+         stroke-linecap: round; stroke-linejoin: round; }
+  .thinln { stroke: #6b6660; stroke-width: 1.4; fill: none;
+             stroke-linecap: round; }
+  .dash { stroke: #3d3a36; stroke-width: 1.8; fill: none;
+           stroke-dasharray: 6 5; stroke-linecap: round; }
+</style>
+<text class="t" x="450.0" y="38" text-anchor="middle" >prefill 的 bubble 是怎么一步步消掉的</text>
+<text class="s" x="450.0" y="62" text-anchor="middle" >B = 32, T = 128, packing 成一次前向. 深色是 GPU 真在算, 浅色是 GPU 等 CPU 发射</text>
+<text class="l" x="286" y="122" text-anchor="end" >最初</text>
+<g filter="url(#wob2)">
+<rect class="box" x="300" y="100" width="178.02" height="30" rx="4" fill="#82c09a"/>
+<rect class="box" x="478.02" y="100" width="303.37" height="30" rx="4" fill="#e8e4de"/>
+</g>
+<text class="h" x="791.39" y="121" text-anchor="start" >209.3ms</text>
+<text class="xs" x="308" y="146" text-anchor="start" >GPU 77.4</text>
+<text class="xs" x="486.02" y="146" text-anchor="start" >等 CPU 131.9</text>
+<text class="xs" x="286" y="140" text-anchor="end" >6937 次发射</text>
+<text class="l" x="286" y="184" text-anchor="end" >slice_of 不再取标量</text>
+<g filter="url(#wob2)">
+<rect class="box" x="300" y="162" width="161.68999999999997" height="30" rx="4" fill="#82c09a"/>
+<rect class="box" x="461.68999999999994" y="162" width="177.32999999999998" height="30" rx="4" fill="#e8e4de"/>
+</g>
+<text class="h" x="649.02" y="183" text-anchor="start" >147.4ms</text>
+<text class="xs" x="308" y="208" text-anchor="start" >GPU 70.3</text>
+<text class="xs" x="469.68999999999994" y="208" text-anchor="start" >等 CPU 77.1</text>
+<text class="xs" x="286" y="202" text-anchor="end" >5337 次发射</text>
+<text class="l" x="286" y="246" text-anchor="end" >+ 变长 scatter kernel</text>
+<g filter="url(#wob2)">
+<rect class="box" x="300" y="224" width="140.76" height="30" rx="4" fill="#82c09a"/>
+<rect class="box" x="440.76" y="224" width="50.599999999999994" height="30" rx="4" fill="#e8e4de"/>
+</g>
+<text class="h" x="501.36" y="245" text-anchor="start" >83.2ms</text>
+<text class="xs" x="308" y="270" text-anchor="start" >GPU 61.2</text>
+<text class="xs" x="448.76" y="270" text-anchor="start" >等 CPU 22.0</text>
+<text class="xs" x="286" y="264" text-anchor="end" >2271 次发射</text>
+<text class="l" x="286" y="308" text-anchor="end" >+ 批量抽 conv state</text>
+<g filter="url(#wob2)">
+<rect class="box" x="300" y="286" width="133.17" height="30" rx="4" fill="#82c09a"/>
+<rect class="box" x="433.16999999999996" y="286" width="9.889999999999999" height="30" rx="4" fill="#e8e4de"/>
+</g>
+<text class="h" x="453.05999999999995" y="307" text-anchor="start" >62.2ms</text>
+<text class="xs" x="308" y="332" text-anchor="start" >GPU 57.9</text>
+<text class="xs" x="286" y="326" text-anchor="end" >561 次发射</text>
+<path class="thinln" d="M 100 358 Q 275.0 355 450.0 358 T 800 357.0"/>
+<text class="l" x="450.0" y="386" text-anchor="middle" >三处改动全部在 CPU 侧, GPU 干的活基本没变 (77.4 -> 57.9 只是少了些冗余拷贝)</text>
+<text class="l" x="450.0" y="414" text-anchor="middle" >最后 4.3ms 的 bubble 说明 prefill 终于变成 GPU-bound -- 再压发射数已经没有意义了</text>
+</svg>

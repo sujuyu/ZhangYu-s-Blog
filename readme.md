@@ -4,6 +4,7 @@
 
 ### 文章列表 (按更新时间倒序)
 
+- [纯手写Triton kernel跑通Qwen3.5-0.8B(二): 分页KV cache, 变长packing和CTA发射顺序](https://github.com/sujuyu/ZhangYu-s-Blog/tree/main/%E7%BA%AF%E6%89%8B%E5%86%99Triton%20kernel%E8%B7%91%E9%80%9AQwen3.5-0.8B%28%E4%BA%8C%29%3A%20%E5%88%86%E9%A1%B5KV%20cache%2C%20%E5%8F%98%E9%95%BFpacking%E5%92%8CCTA%E5%8F%91%E5%B0%84%E9%A1%BA%E5%BA%8F)
 - [纯手写Triton kernel跑通Qwen3.5-0.8B(一): 21个算子, split-K和CUDA Graph](https://github.com/sujuyu/ZhangYu-s-Blog/tree/main/%E7%BA%AF%E6%89%8B%E5%86%99Triton%20kernel%E8%B7%91%E9%80%9AQwen3.5-0.8B%28%E4%B8%80%29%3A%2021%E4%B8%AA%E7%AE%97%E5%AD%90%2C%20split-K%E5%92%8CCUDA%20Graph)
 - [从TorchScript到AOTInductor: 一次高并发推理链路的重构](https://github.com/sujuyu/ZhangYu-s-Blog/tree/main/%E4%BB%8ETorchScript%E5%88%B0AOTInductor%3A%20%E4%B8%80%E6%AC%A1%E9%AB%98%E5%B9%B6%E5%8F%91%E6%8E%A8%E7%90%86%E9%93%BE%E8%B7%AF%E7%9A%84%E9%87%8D%E6%9E%84)
 - [SDPA的通用性留下的缝隙: 从数据特点里抠出更快的Attention](https://github.com/sujuyu/ZhangYu-s-Blog/tree/main/SDPA%E7%9A%84%E9%80%9A%E7%94%A8%E6%80%A7%E7%95%99%E4%B8%8B%E7%9A%84%E7%BC%9D%E9%9A%99%3A%20%E4%BB%8E%E6%95%B0%E6%8D%AE%E7%89%B9%E7%82%B9%E9%87%8C%E6%8A%A0%E5%87%BA%E6%9B%B4%E5%BF%AB%E7%9A%84Attention)

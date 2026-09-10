@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="430" viewBox="0 0 900 430">
+<defs>
+  <filter id="wob" x="-6%" y="-6%" width="112%" height="112%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="3" seed="7" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+  <filter id="wob2" x="-6%" y="-6%" width="112%" height="112%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="19" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="1.5" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+  <marker id="arw" viewBox="0 0 10 10" refX="8" refY="5"
+          markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M 0 1 L 9 5 L 0 9 z" fill="#3d3a36"/>
+  </marker>
+  <marker id="arws" viewBox="0 0 10 10" refX="8" refY="5"
+          markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+    <path d="M 0 1 L 9 5 L 0 9 z" fill="#6b6660"/>
+  </marker>
+</defs>
+<rect width="100%" height="100%" fill="#fdfcf8"/>
+<style>
+  text { font-family: "Comic Sans MS", "Chalkboard SE", "Kaiti SC", "STKaiti", KaiTi, "Noto Sans CJK SC", "Source Han Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; fill: #3d3a36; }
+  .t  { font-size: 21px; font-weight: 700; }
+  .h  { font-size: 15px; font-weight: 700; }
+  .l  { font-size: 13px; }
+  .s  { font-size: 11.5px; fill: #6b6660; }
+  .xs { font-size: 10px; fill: #6b6660; }
+  .box { stroke: #3d3a36; stroke-width: 2; stroke-linejoin: round; }
+  .thin { stroke: #3d3a36; stroke-width: 1.2; stroke-linejoin: round; }
+  .ln { stroke: #3d3a36; stroke-width: 2; fill: none;
+         stroke-linecap: round; stroke-linejoin: round; }
+  .thinln { stroke: #6b6660; stroke-width: 1.4; fill: none;
+             stroke-linecap: round; }
+  .dash { stroke: #3d3a36; stroke-width: 1.8; fill: none;
+           stroke-dasharray: 6 5; stroke-linecap: round; }
+</style>
+<text class="t" x="450.0" y="38" text-anchor="middle" >一页里面长什么样, 以及为什么 PAGE = 16</text>
+<g filter="url(#wob)"><rect class="box" x="46" y="68" width="400" height="250" rx="6" fill="#eaf3fa"/></g>
+<text class="h" x="246" y="94" text-anchor="middle" >一页 = [H_kv, PAGE, D] = [2, 16, 256]</text>
+<g filter="url(#wob2)"><rect class="box" x="76" y="116" width="340" height="76" rx="6" fill="#7fb3d555"/></g>
+<text class="l" x="246" y="146" text-anchor="middle" >KV head 0</text>
+<text class="xs" x="246" y="168" text-anchor="middle" >16 x 256 x 2B = 8 KiB, 完全连续</text>
+<g filter="url(#wob2)"><rect class="box" x="76" y="208" width="340" height="76" rx="6" fill="#f0a86855"/></g>
+<text class="l" x="246" y="238" text-anchor="middle" >KV head 1</text>
+<text class="xs" x="246" y="260" text-anchor="middle" >16 x 256 x 2B = 8 KiB, 完全连续</text>
+<text class="s" x="246" y="336" text-anchor="middle" >固定 (page, head) 之后就是一整块连续内存,</text>
+<text class="s" x="246" y="354" text-anchor="middle" >和整块方案里 k_cache[h, t0:t0+BLOCK_T, :] 的形态一样</text>
+<g filter="url(#wob)"><rect class="box" x="474" y="68" width="380" height="250" rx="6" fill="#e9f4ec"/></g>
+<text class="h" x="664" y="94" text-anchor="middle" >BLOCK_T 钉死等于 PAGE</text>
+<g filter="url(#wob2)"><rect class="box" x="494" y="112" width="340" height="96" rx="6" fill="#ffffff"/></g>
+<text class="xs" x="506" y="132" text-anchor="start" >for lp in range(page_start, page_end):</text>
+<text class="xs" x="506" y="152" text-anchor="start" >    phys = tl.load(bt_ptr + lp)   # 标量!</text>
+<text class="xs" x="506" y="172" text-anchor="start" >    k = tl.load(kc_ptr + phys * stride_p</text>
+<text class="xs" x="506" y="192" text-anchor="start" >                + ... )</text>
+<text class="xs" x="494" y="226" text-anchor="start" >一个 tile 恰好覆盖一个页,</text>
+<text class="xs" x="494" y="242" text-anchor="start" >页表只查一次, 查出来还是个标量.</text>
+<text class="xs" x="494" y="258" text-anchor="start" ></text>
+<text class="xs" x="494" y="274" text-anchor="start" >如果 BLOCK_T > PAGE, 一个 tile 跨多个页,</text>
+<text class="xs" x="494" y="290" text-anchor="start" >就得 gather 一个页号向量再逐元素算地址 --</text>
+<text class="xs" x="494" y="306" text-anchor="start" >复杂度和寄存器压力都上一个台阶.</text>
+<text class="s" x="450.0" y="396" text-anchor="middle" >代价是 BLOCK_T 不再能被 autotune 选. 实测整块版本 seq=4095 时 16 vs 32 差距在 3% 以内, 认了</text>
+</svg>

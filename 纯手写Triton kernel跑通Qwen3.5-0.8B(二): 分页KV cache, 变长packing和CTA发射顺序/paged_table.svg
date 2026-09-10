@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="500" viewBox="0 0 900 500">
+<defs>
+  <filter id="wob" x="-6%" y="-6%" width="112%" height="112%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="3" seed="7" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+  <filter id="wob2" x="-6%" y="-6%" width="112%" height="112%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="19" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="1.5" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+  <marker id="arw" viewBox="0 0 10 10" refX="8" refY="5"
+          markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M 0 1 L 9 5 L 0 9 z" fill="#3d3a36"/>
+  </marker>
+  <marker id="arws" viewBox="0 0 10 10" refX="8" refY="5"
+          markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+    <path d="M 0 1 L 9 5 L 0 9 z" fill="#6b6660"/>
+  </marker>
+</defs>
+<rect width="100%" height="100%" fill="#fdfcf8"/>
+<style>
+  text { font-family: "Comic Sans MS", "Chalkboard SE", "Kaiti SC", "STKaiti", KaiTi, "Noto Sans CJK SC", "Source Han Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; fill: #3d3a36; }
+  .t  { font-size: 21px; font-weight: 700; }
+  .h  { font-size: 15px; font-weight: 700; }
+  .l  { font-size: 13px; }
+  .s  { font-size: 11.5px; fill: #6b6660; }
+  .xs { font-size: 10px; fill: #6b6660; }
+  .box { stroke: #3d3a36; stroke-width: 2; stroke-linejoin: round; }
+  .thin { stroke: #3d3a36; stroke-width: 1.2; stroke-linejoin: round; }
+  .ln { stroke: #3d3a36; stroke-width: 2; fill: none;
+         stroke-linecap: round; stroke-linejoin: round; }
+  .thinln { stroke: #6b6660; stroke-width: 1.4; fill: none;
+             stroke-linecap: round; }
+  .dash { stroke: #3d3a36; stroke-width: 1.8; fill: none;
+           stroke-dasharray: 6 5; stroke-linecap: round; }
+</style>
+<text class="t" x="450.0" y="38" text-anchor="middle" >池子是共享的, 表的行是私有的</text>
+<text class="s" x="450.0" y="62" text-anchor="middle" >理解了这一句, 分页 KV cache 的其余部分都是推论</text>
+<text class="l" x="110" y="106" text-anchor="start" >序列 0  (长 40, 3 页)</text>
+<g filter="url(#wob2)"><rect class="box" x="110" y="126" width="62" height="44" rx="5" fill="#7fb3d555"/></g>
+<text class="l" x="141.0" y="154" text-anchor="middle" >5</text>
+<text class="xs" x="141.0" y="188" text-anchor="middle" >逻辑页 0</text>
+<g filter="url(#wob2)"><rect class="box" x="180" y="126" width="62" height="44" rx="5" fill="#7fb3d555"/></g>
+<text class="l" x="211.0" y="154" text-anchor="middle" >12</text>
+<text class="xs" x="211.0" y="188" text-anchor="middle" >逻辑页 1</text>
+<g filter="url(#wob2)"><rect class="box" x="250" y="126" width="62" height="44" rx="5" fill="#7fb3d555"/></g>
+<text class="l" x="281.0" y="154" text-anchor="middle" >3</text>
+<text class="xs" x="281.0" y="188" text-anchor="middle" >逻辑页 2</text>
+<text class="l" x="590" y="106" text-anchor="start" >序列 1  (长 30, 2 页)</text>
+<g filter="url(#wob2)"><rect class="box" x="590" y="126" width="62" height="44" rx="5" fill="#f0a86855"/></g>
+<text class="l" x="621.0" y="154" text-anchor="middle" >8</text>
+<text class="xs" x="621.0" y="188" text-anchor="middle" >逻辑页 0</text>
+<g filter="url(#wob2)"><rect class="box" x="660" y="126" width="62" height="44" rx="5" fill="#f0a86855"/></g>
+<text class="l" x="691.0" y="154" text-anchor="middle" >1</text>
+<text class="xs" x="691.0" y="188" text-anchor="middle" >逻辑页 1</text>
+<g filter="url(#wob2)"><rect class="box" x="730" y="126" width="62" height="44" rx="5" fill="#e8e4de"/></g>
+<text class="l" x="761.0" y="154" text-anchor="middle" >-</text>
+<text class="xs" x="761.0" y="188" text-anchor="middle" >逻辑页 2</text>
+<text class="h" x="450.0" y="122" text-anchor="middle" >block_table</text>
+<text class="xs" x="450.0" y="144" text-anchor="middle" >[max_batch, max_pages]</text>
+<text class="xs" x="450.0" y="170" text-anchor="middle" >一条序列一行, 互不相干</text>
+<g filter="url(#wob2)">
+<rect class="box" x="60" y="300" width="52" height="46" rx="5" fill="#ffffff"/>
+<rect class="box" x="120" y="300" width="52" height="46" rx="5" fill="#f0a86855"/>
+<rect class="box" x="180" y="300" width="52" height="46" rx="5" fill="#ffffff"/>
+<rect class="box" x="240" y="300" width="52" height="46" rx="5" fill="#7fb3d555"/>
+<rect class="box" x="300" y="300" width="52" height="46" rx="5" fill="#ffffff"/>
+<rect class="box" x="360" y="300" width="52" height="46" rx="5" fill="#7fb3d555"/>
+<rect class="box" x="420" y="300" width="52" height="46" rx="5" fill="#ffffff"/>
+<rect class="box" x="480" y="300" width="52" height="46" rx="5" fill="#ffffff"/>
+<rect class="box" x="540" y="300" width="52" height="46" rx="5" fill="#f0a86855"/>
+<rect class="box" x="600" y="300" width="52" height="46" rx="5" fill="#ffffff"/>
+<rect class="box" x="660" y="300" width="52" height="46" rx="5" fill="#ffffff"/>
+<rect class="box" x="720" y="300" width="52" height="46" rx="5" fill="#ffffff"/>
+<rect class="box" x="780" y="300" width="52" height="46" rx="5" fill="#7fb3d555"/>
+<rect class="box" x="840" y="300" width="52" height="46" rx="5" fill="#ffffff"/>
+</g>
+<text class="l" x="86.0" y="329" text-anchor="middle" >0</text>
+<text class="l" x="146.0" y="329" text-anchor="middle" >1</text>
+<text class="l" x="206.0" y="329" text-anchor="middle" >2</text>
+<text class="l" x="266.0" y="329" text-anchor="middle" >3</text>
+<text class="l" x="326.0" y="329" text-anchor="middle" >4</text>
+<text class="l" x="386.0" y="329" text-anchor="middle" >5</text>
+<text class="l" x="446.0" y="329" text-anchor="middle" >6</text>
+<text class="l" x="506.0" y="329" text-anchor="middle" >7</text>
+<text class="l" x="566.0" y="329" text-anchor="middle" >8</text>
+<text class="l" x="626.0" y="329" text-anchor="middle" >9</text>
+<text class="l" x="686.0" y="329" text-anchor="middle" >10</text>
+<text class="l" x="746.0" y="329" text-anchor="middle" >11</text>
+<text class="l" x="806.0" y="329" text-anchor="middle" >12</text>
+<text class="l" x="866.0" y="329" text-anchor="middle" >13</text>
+<text class="h" x="60" y="372" text-anchor="start" >页池 k_cache / v_cache  [num_pages, H_kv, PAGE, D]  -- 只有一份</text>
+<text class="s" x="60" y="394" text-anchor="start" >空白的页在空闲链表里, reset 时全部归还</text>
+<path class="thinln" d="M 141.0 196 C 141.0 235.0 386.0 235.0 386.0 296" style="stroke:#7fb3d5" marker-end="url(#arws)"/>
+<path class="thinln" d="M 211.0 196 C 211.0 235.0 806.0 235.0 806.0 296" style="stroke:#7fb3d5" marker-end="url(#arws)"/>
+<path class="thinln" d="M 281.0 196 C 281.0 235.0 266.0 235.0 266.0 296" style="stroke:#7fb3d5" marker-end="url(#arws)"/>
+<path class="thinln" d="M 621.0 196 C 621.0 235.0 566.0 235.0 566.0 296" style="stroke:#f0a868" marker-end="url(#arws)"/>
+<path class="thinln" d="M 691.0 196 C 691.0 235.0 146.0 235.0 146.0 296" style="stroke:#f0a868" marker-end="url(#arws)"/>
+<text class="l" x="450.0" y="444" text-anchor="middle" >连线是乱的 -- 逻辑上连续的 token 落在物理上不相邻的页里, 这正是分页的意义</text>
+<text class="s" x="450.0" y="472" text-anchor="middle" >推论: kernel 里 k_cache 的基址完全不带 batch 偏移, 只有 block_table 按 pid_b 偏</text>
+</svg>

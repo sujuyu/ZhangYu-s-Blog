@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="480" viewBox="0 0 900 480">
+<defs>
+  <filter id="wob" x="-6%" y="-6%" width="112%" height="112%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="3" seed="7" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+  <filter id="wob2" x="-6%" y="-6%" width="112%" height="112%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="19" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="1.5" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+  <marker id="arw" viewBox="0 0 10 10" refX="8" refY="5"
+          markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M 0 1 L 9 5 L 0 9 z" fill="#3d3a36"/>
+  </marker>
+  <marker id="arws" viewBox="0 0 10 10" refX="8" refY="5"
+          markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+    <path d="M 0 1 L 9 5 L 0 9 z" fill="#6b6660"/>
+  </marker>
+</defs>
+<rect width="100%" height="100%" fill="#fdfcf8"/>
+<style>
+  text { font-family: "Comic Sans MS", "Chalkboard SE", "Kaiti SC", "STKaiti", KaiTi, "Noto Sans CJK SC", "Source Han Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; fill: #3d3a36; }
+  .t  { font-size: 21px; font-weight: 700; }
+  .h  { font-size: 15px; font-weight: 700; }
+  .l  { font-size: 13px; }
+  .s  { font-size: 11.5px; fill: #6b6660; }
+  .xs { font-size: 10px; fill: #6b6660; }
+  .box { stroke: #3d3a36; stroke-width: 2; stroke-linejoin: round; }
+  .thin { stroke: #3d3a36; stroke-width: 1.2; stroke-linejoin: round; }
+  .ln { stroke: #3d3a36; stroke-width: 2; fill: none;
+         stroke-linecap: round; stroke-linejoin: round; }
+  .thinln { stroke: #6b6660; stroke-width: 1.4; fill: none;
+             stroke-linecap: round; }
+  .dash { stroke: #3d3a36; stroke-width: 1.8; fill: none;
+           stroke-dasharray: 6 5; stroke-linecap: round; }
+</style>
+<text class="t" x="450.0" y="38" text-anchor="middle" >变长 prefill: packing, 而不是 padding</text>
+<text class="s" x="450.0" y="62" text-anchor="middle" >4 条 prompt, 长度 3 / 6 / 1 / 4</text>
+<g filter="url(#wob)"><rect class="box" x="46" y="84" width="380" height="170" rx="6" fill="#fbe9e6"/></g>
+<text class="h" x="236" y="108" text-anchor="middle" >padding 到 max = 6</text>
+<g filter="url(#wob2)"><rect class="box" x="96" y="122" width="26" height="22" rx="3" fill="#7fb3d5"/></g>
+<g filter="url(#wob2)"><rect class="box" x="125" y="122" width="26" height="22" rx="3" fill="#7fb3d5"/></g>
+<g filter="url(#wob2)"><rect class="box" x="154" y="122" width="26" height="22" rx="3" fill="#7fb3d5"/></g>
+<g filter="url(#wob2)"><rect class="box" x="183" y="122" width="26" height="22" rx="3" fill="#e8e4de"/></g>
+<g filter="url(#wob2)"><rect class="box" x="212" y="122" width="26" height="22" rx="3" fill="#e8e4de"/></g>
+<g filter="url(#wob2)"><rect class="box" x="241" y="122" width="26" height="22" rx="3" fill="#e8e4de"/></g>
+<g filter="url(#wob2)"><rect class="box" x="96" y="152" width="26" height="22" rx="3" fill="#f0a868"/></g>
+<g filter="url(#wob2)"><rect class="box" x="125" y="152" width="26" height="22" rx="3" fill="#f0a868"/></g>
+<g filter="url(#wob2)"><rect class="box" x="154" y="152" width="26" height="22" rx="3" fill="#f0a868"/></g>
+<g filter="url(#wob2)"><rect class="box" x="183" y="152" width="26" height="22" rx="3" fill="#f0a868"/></g>
+<g filter="url(#wob2)"><rect class="box" x="212" y="152" width="26" height="22" rx="3" fill="#f0a868"/></g>
+<g filter="url(#wob2)"><rect class="box" x="241" y="152" width="26" height="22" rx="3" fill="#f0a868"/></g>
+<g filter="url(#wob2)"><rect class="box" x="96" y="182" width="26" height="22" rx="3" fill="#82c09a"/></g>
+<g filter="url(#wob2)"><rect class="box" x="125" y="182" width="26" height="22" rx="3" fill="#e8e4de"/></g>
+<g filter="url(#wob2)"><rect class="box" x="154" y="182" width="26" height="22" rx="3" fill="#e8e4de"/></g>
+<g filter="url(#wob2)"><rect class="box" x="183" y="182" width="26" height="22" rx="3" fill="#e8e4de"/></g>
+<g filter="url(#wob2)"><rect class="box" x="212" y="182" width="26" height="22" rx="3" fill="#e8e4de"/></g>
+<g filter="url(#wob2)"><rect class="box" x="241" y="182" width="26" height="22" rx="3" fill="#e8e4de"/></g>
+<g filter="url(#wob2)"><rect class="box" x="96" y="212" width="26" height="22" rx="3" fill="#b39ddb"/></g>
+<g filter="url(#wob2)"><rect class="box" x="125" y="212" width="26" height="22" rx="3" fill="#b39ddb"/></g>
+<g filter="url(#wob2)"><rect class="box" x="154" y="212" width="26" height="22" rx="3" fill="#b39ddb"/></g>
+<g filter="url(#wob2)"><rect class="box" x="183" y="212" width="26" height="22" rx="3" fill="#b39ddb"/></g>
+<g filter="url(#wob2)"><rect class="box" x="212" y="212" width="26" height="22" rx="3" fill="#e8e4de"/></g>
+<g filter="url(#wob2)"><rect class="box" x="241" y="212" width="26" height="22" rx="3" fill="#e8e4de"/></g>
+<text class="s" x="236" y="268" text-anchor="middle" >24 个格子里 10 个是废的, 而且要造 mask 把它们挡掉</text>
+<g filter="url(#wob)"><rect class="box" x="474" y="84" width="380" height="170" rx="6" fill="#e9f4ec"/></g>
+<text class="h" x="664" y="108" text-anchor="middle" >拼成一条扁平序列</text>
+<g filter="url(#wob2)"><rect class="box" x="497.0" y="140" width="22" height="22" rx="3" fill="#7fb3d5"/></g>
+<g filter="url(#wob2)"><rect class="box" x="521.0" y="140" width="22" height="22" rx="3" fill="#7fb3d5"/></g>
+<g filter="url(#wob2)"><rect class="box" x="545.0" y="140" width="22" height="22" rx="3" fill="#7fb3d5"/></g>
+<g filter="url(#wob2)"><rect class="box" x="569.0" y="140" width="22" height="22" rx="3" fill="#f0a868"/></g>
+<g filter="url(#wob2)"><rect class="box" x="593.0" y="140" width="22" height="22" rx="3" fill="#f0a868"/></g>
+<g filter="url(#wob2)"><rect class="box" x="617.0" y="140" width="22" height="22" rx="3" fill="#f0a868"/></g>
+<g filter="url(#wob2)"><rect class="box" x="641.0" y="140" width="22" height="22" rx="3" fill="#f0a868"/></g>
+<g filter="url(#wob2)"><rect class="box" x="665.0" y="140" width="22" height="22" rx="3" fill="#f0a868"/></g>
+<g filter="url(#wob2)"><rect class="box" x="689.0" y="140" width="22" height="22" rx="3" fill="#f0a868"/></g>
+<g filter="url(#wob2)"><rect class="box" x="713.0" y="140" width="22" height="22" rx="3" fill="#82c09a"/></g>
+<g filter="url(#wob2)"><rect class="box" x="737.0" y="140" width="22" height="22" rx="3" fill="#b39ddb"/></g>
+<g filter="url(#wob2)"><rect class="box" x="761.0" y="140" width="22" height="22" rx="3" fill="#b39ddb"/></g>
+<g filter="url(#wob2)"><rect class="box" x="785.0" y="140" width="22" height="22" rx="3" fill="#b39ddb"/></g>
+<g filter="url(#wob2)"><rect class="box" x="809.0" y="140" width="22" height="22" rx="3" fill="#b39ddb"/></g>
+<text class="s" x="664" y="186" text-anchor="middle" >total_tokens = 14, 一个废格子都没有</text>
+<text class="l" x="664" y="214" text-anchor="middle" >cu_seqlens = [0, 3, 9, 10, 14]</text>
+<text class="xs" x="664" y="236" text-anchor="middle" >边界就靠这一个数组说清楚</text>
+<g filter="url(#wob)"><rect class="box" x="46" y="288" width="808" height="130" rx="6" fill="#ffffff"/></g>
+<text class="h" x="70" y="312" text-anchor="start" >为什么不需要造一个块对角的 mask 矩阵</text>
+<text class="l" x="70" y="336" text-anchor="start" >因为压根不会算到. 每条序列的 attention 循环边界来自它自己的 cu_seqlens --</text>
+<text class="l" x="70" y="355" text-anchor="start" >q 在第 b 条里, 内层就只从 cu_seqlens[b] 扫到 cu_seqlens[b+1], 跨序列的位置</text>
+<text class="l" x="70" y="374" text-anchor="start" >从来没有进过循环. 块对角是这么 "自动" 出来的, 不是靠一个矩阵挡出来的.</text>
+<text class="l" x="70" y="393" text-anchor="start" ></text>
+<text class="s" x="70" y="412" text-anchor="start" >整个 24 层里只有三个算子需要知道边界: attention, conv4_prefill, GDN 递推.</text>
+<text class="l" x="450.0" y="452" text-anchor="middle" >其余逐 token 的算子拿 [total_tokens, ...] 一行都不用改</text>
+</svg>

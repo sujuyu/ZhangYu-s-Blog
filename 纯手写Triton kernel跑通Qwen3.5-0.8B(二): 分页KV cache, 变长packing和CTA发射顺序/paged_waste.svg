@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="452" viewBox="0 0 900 452">
+<defs>
+  <filter id="wob" x="-6%" y="-6%" width="112%" height="112%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="3" seed="7" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+  <filter id="wob2" x="-6%" y="-6%" width="112%" height="112%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="19" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="1.5" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+  <marker id="arw" viewBox="0 0 10 10" refX="8" refY="5"
+          markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M 0 1 L 9 5 L 0 9 z" fill="#3d3a36"/>
+  </marker>
+  <marker id="arws" viewBox="0 0 10 10" refX="8" refY="5"
+          markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+    <path d="M 0 1 L 9 5 L 0 9 z" fill="#6b6660"/>
+  </marker>
+</defs>
+<rect width="100%" height="100%" fill="#fdfcf8"/>
+<style>
+  text { font-family: "Comic Sans MS", "Chalkboard SE", "Kaiti SC", "STKaiti", KaiTi, "Noto Sans CJK SC", "Source Han Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; fill: #3d3a36; }
+  .t  { font-size: 21px; font-weight: 700; }
+  .h  { font-size: 15px; font-weight: 700; }
+  .l  { font-size: 13px; }
+  .s  { font-size: 11.5px; fill: #6b6660; }
+  .xs { font-size: 10px; fill: #6b6660; }
+  .box { stroke: #3d3a36; stroke-width: 2; stroke-linejoin: round; }
+  .thin { stroke: #3d3a36; stroke-width: 1.2; stroke-linejoin: round; }
+  .ln { stroke: #3d3a36; stroke-width: 2; fill: none;
+         stroke-linecap: round; stroke-linejoin: round; }
+  .thinln { stroke: #6b6660; stroke-width: 1.4; fill: none;
+             stroke-linecap: round; }
+  .dash { stroke: #3d3a36; stroke-width: 1.8; fill: none;
+           stroke-dasharray: 6 5; stroke-linecap: round; }
+</style>
+<text class="t" x="450.0" y="38" text-anchor="middle" >为什么一块连续的 KV cache 撑不住多条请求</text>
+<text class="s" x="450.0" y="62" text-anchor="middle" >4 条请求, 长度 40 / 200 / 10 / 130, 引擎按 max_len = 256 开</text>
+<g filter="url(#wob)"><rect class="box" x="46" y="84" width="380" height="268" rx="6" fill="#fbe9e6"/></g>
+<text class="h" x="236" y="110" text-anchor="middle" >整块: 每条按 max_len 各开一份</text>
+<text class="s" x="66" y="148" text-anchor="start" >#0</text>
+<g filter="url(#wob2)">
+<rect class="box" x="92" y="128" width="280.0" height="26" rx="4" fill="#e8e4de"/>
+<rect class="box" x="92" y="128" width="43.75" height="26" rx="4" fill="#7fb3d5"/>
+</g>
+<text class="xs" x="380.0" y="147" text-anchor="start" >40</text>
+<text class="s" x="66" y="194" text-anchor="start" >#1</text>
+<g filter="url(#wob2)">
+<rect class="box" x="92" y="174" width="280.0" height="26" rx="4" fill="#e8e4de"/>
+<rect class="box" x="92" y="174" width="218.75" height="26" rx="4" fill="#f0a868"/>
+</g>
+<text class="xs" x="380.0" y="193" text-anchor="start" >200</text>
+<text class="s" x="66" y="240" text-anchor="start" >#2</text>
+<g filter="url(#wob2)">
+<rect class="box" x="92" y="220" width="280.0" height="26" rx="4" fill="#e8e4de"/>
+<rect class="box" x="92" y="220" width="10.9375" height="26" rx="4" fill="#82c09a"/>
+</g>
+<text class="xs" x="380.0" y="239" text-anchor="start" >10</text>
+<text class="s" x="66" y="286" text-anchor="start" >#3</text>
+<g filter="url(#wob2)">
+<rect class="box" x="92" y="266" width="280.0" height="26" rx="4" fill="#e8e4de"/>
+<rect class="box" x="92" y="266" width="142.1875" height="26" rx="4" fill="#b39ddb"/>
+</g>
+<text class="xs" x="380.0" y="285" text-anchor="start" >130</text>
+<path class="thinln" d="M 76 320 Q 156.0 317 236.0 320 T 396 319.0"/>
+<text class="l" x="236" y="340" text-anchor="middle" >开了 1024 个槽, 只用了 380 个 -- 63% 是空的</text>
+<g filter="url(#wob)"><rect class="box" x="474" y="84" width="380" height="268" rx="6" fill="#e9f4ec"/></g>
+<text class="h" x="664" y="110" text-anchor="middle" >分页: 按 16 个 token 一页, 用多少要多少</text>
+<text class="s" x="494" y="148" text-anchor="start" >#0</text>
+<g filter="url(#wob2)">
+<rect class="box" x="520" y="128" width="15" height="26" rx="3" fill="#7fb3d5"/>
+<rect class="box" x="537" y="128" width="15" height="26" rx="3" fill="#7fb3d5"/>
+<rect class="box" x="554" y="128" width="15" height="26" rx="3" fill="#e8e4de"/>
+</g>
+<text class="xs" x="577" y="147" text-anchor="start" >3 页</text>
+<text class="s" x="494" y="194" text-anchor="start" >#1</text>
+<g filter="url(#wob2)">
+<rect class="box" x="520" y="174" width="15" height="26" rx="3" fill="#f0a868"/>
+<rect class="box" x="537" y="174" width="15" height="26" rx="3" fill="#f0a868"/>
+<rect class="box" x="554" y="174" width="15" height="26" rx="3" fill="#f0a868"/>
+<rect class="box" x="571" y="174" width="15" height="26" rx="3" fill="#f0a868"/>
+<rect class="box" x="588" y="174" width="15" height="26" rx="3" fill="#f0a868"/>
+<rect class="box" x="605" y="174" width="15" height="26" rx="3" fill="#f0a868"/>
+<rect class="box" x="622" y="174" width="15" height="26" rx="3" fill="#f0a868"/>
+<rect class="box" x="639" y="174" width="15" height="26" rx="3" fill="#f0a868"/>
+<rect class="box" x="656" y="174" width="15" height="26" rx="3" fill="#f0a868"/>
+<rect class="box" x="673" y="174" width="15" height="26" rx="3" fill="#f0a868"/>
+<rect class="box" x="690" y="174" width="15" height="26" rx="3" fill="#f0a868"/>
+<rect class="box" x="707" y="174" width="15" height="26" rx="3" fill="#f0a868"/>
+<rect class="box" x="724" y="174" width="15" height="26" rx="3" fill="#e8e4de"/>
+</g>
+<text class="xs" x="747" y="193" text-anchor="start" >13 页</text>
+<text class="s" x="494" y="240" text-anchor="start" >#2</text>
+<g filter="url(#wob2)">
+<rect class="box" x="520" y="220" width="15" height="26" rx="3" fill="#e8e4de"/>
+</g>
+<text class="xs" x="543" y="239" text-anchor="start" >1 页</text>
+<text class="s" x="494" y="286" text-anchor="start" >#3</text>
+<g filter="url(#wob2)">
+<rect class="box" x="520" y="266" width="15" height="26" rx="3" fill="#b39ddb"/>
+<rect class="box" x="537" y="266" width="15" height="26" rx="3" fill="#b39ddb"/>
+<rect class="box" x="554" y="266" width="15" height="26" rx="3" fill="#b39ddb"/>
+<rect class="box" x="571" y="266" width="15" height="26" rx="3" fill="#b39ddb"/>
+<rect class="box" x="588" y="266" width="15" height="26" rx="3" fill="#b39ddb"/>
+<rect class="box" x="605" y="266" width="15" height="26" rx="3" fill="#b39ddb"/>
+<rect class="box" x="622" y="266" width="15" height="26" rx="3" fill="#b39ddb"/>
+<rect class="box" x="639" y="266" width="15" height="26" rx="3" fill="#b39ddb"/>
+<rect class="box" x="656" y="266" width="15" height="26" rx="3" fill="#e8e4de"/>
+</g>
+<text class="xs" x="679" y="285" text-anchor="start" >9 页</text>
+<path class="thinln" d="M 504 320 Q 584.0 317 664.0 320 T 824 319.0"/>
+<text class="l" x="664" y="340" text-anchor="middle" >26 页 = 416 个槽, 浪费只剩每条尾页那几个</text>
+<text class="l" x="450.0" y="386" text-anchor="middle" >浪费从 "按最长的开" 变成 "每条尾页最多空 15 个" -- 内部碎片, 有上界</text>
+<text class="s" x="450.0" y="412" text-anchor="middle" >而且序列还在一边 decode 一边长: 整块方案里紧挨着排就会撞上邻居, 得搬数据;</text>
+<text class="s" x="450.0" y="432" text-anchor="middle" >分页之后长满一页就再要一页, 落在哪都无所谓</text>
+</svg>

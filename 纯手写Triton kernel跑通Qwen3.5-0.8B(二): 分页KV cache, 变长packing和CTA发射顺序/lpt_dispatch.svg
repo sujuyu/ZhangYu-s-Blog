@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="560" viewBox="0 0 900 560">
+<defs>
+  <filter id="wob" x="-6%" y="-6%" width="112%" height="112%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="3" seed="7" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+  <filter id="wob2" x="-6%" y="-6%" width="112%" height="112%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="19" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="1.5" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+  <marker id="arw" viewBox="0 0 10 10" refX="8" refY="5"
+          markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M 0 1 L 9 5 L 0 9 z" fill="#3d3a36"/>
+  </marker>
+  <marker id="arws" viewBox="0 0 10 10" refX="8" refY="5"
+          markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+    <path d="M 0 1 L 9 5 L 0 9 z" fill="#6b6660"/>
+  </marker>
+</defs>
+<rect width="100%" height="100%" fill="#fdfcf8"/>
+<style>
+  text { font-family: "Comic Sans MS", "Chalkboard SE", "Kaiti SC", "STKaiti", KaiTi, "Noto Sans CJK SC", "Source Han Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; fill: #3d3a36; }
+  .t  { font-size: 21px; font-weight: 700; }
+  .h  { font-size: 15px; font-weight: 700; }
+  .l  { font-size: 13px; }
+  .s  { font-size: 11.5px; fill: #6b6660; }
+  .xs { font-size: 10px; fill: #6b6660; }
+  .box { stroke: #3d3a36; stroke-width: 2; stroke-linejoin: round; }
+  .thin { stroke: #3d3a36; stroke-width: 1.2; stroke-linejoin: round; }
+  .ln { stroke: #3d3a36; stroke-width: 2; fill: none;
+         stroke-linecap: round; stroke-linejoin: round; }
+  .thinln { stroke: #6b6660; stroke-width: 1.4; fill: none;
+             stroke-linecap: round; }
+  .dash { stroke: #3d3a36; stroke-width: 1.8; fill: none;
+           stroke-dasharray: 6 5; stroke-linecap: round; }
+</style>
+<text class="t" x="450.0" y="38" text-anchor="middle" >causal 让每个 CTA 的活不一样重</text>
+<text class="s" x="450.0" y="62" text-anchor="middle" >8 个 q 块, 4 个 SM. 块号越大要扫的 KV 越多, 工作量正比于 m+1</text>
+<text class="s" x="60" y="100" text-anchor="start" >工作量</text>
+<g filter="url(#wob2)"><rect class="box" x="132" y="138" width="34" height="8" rx="3" fill="#f0a868"/></g>
+<text class="xs" x="149" y="162" text-anchor="middle" >q0</text>
+<g filter="url(#wob2)"><rect class="box" x="176" y="131" width="34" height="15" rx="3" fill="#f0a868"/></g>
+<text class="xs" x="193" y="162" text-anchor="middle" >q1</text>
+<g filter="url(#wob2)"><rect class="box" x="220" y="124" width="34" height="22" rx="3" fill="#f0a868"/></g>
+<text class="xs" x="237" y="162" text-anchor="middle" >q2</text>
+<g filter="url(#wob2)"><rect class="box" x="264" y="117" width="34" height="29" rx="3" fill="#f0a868"/></g>
+<text class="xs" x="281" y="162" text-anchor="middle" >q3</text>
+<g filter="url(#wob2)"><rect class="box" x="308" y="110" width="34" height="36" rx="3" fill="#f0a868"/></g>
+<text class="xs" x="325" y="162" text-anchor="middle" >q4</text>
+<g filter="url(#wob2)"><rect class="box" x="352" y="103" width="34" height="43" rx="3" fill="#f0a868"/></g>
+<text class="xs" x="369" y="162" text-anchor="middle" >q5</text>
+<g filter="url(#wob2)"><rect class="box" x="396" y="96" width="34" height="50" rx="3" fill="#f0a868"/></g>
+<text class="xs" x="413" y="162" text-anchor="middle" >q6</text>
+<g filter="url(#wob2)"><rect class="box" x="440" y="89" width="34" height="57" rx="3" fill="#f0a868"/></g>
+<text class="xs" x="457" y="162" text-anchor="middle" >q7</text>
+<text class="s" x="520" y="118" text-anchor="start" >q0 只要扫 1 个 KV 块, q7 要扫 8 个</text>
+<g filter="url(#wob)"><rect class="box" x="46" y="186" width="808" height="152" rx="6" fill="#fbe9e6"/></g>
+<text class="h" x="60" y="206" text-anchor="start" >正序发射 q0 -> q7: 轻的先上, 最重的最后才开始</text>
+<g filter="url(#wob2)"><rect class="box" x="132.0" y="226" width="21.0" height="21" rx="3" fill="#f0a868"/></g>
+<text class="xs" x="142.5" y="241" text-anchor="middle" >q0</text>
+<g filter="url(#wob2)"><rect class="box" x="132.0" y="252" width="45.0" height="21" rx="3" fill="#f0a868"/></g>
+<text class="xs" x="154.5" y="267" text-anchor="middle" >q1</text>
+<g filter="url(#wob2)"><rect class="box" x="132.0" y="278" width="69.0" height="21" rx="3" fill="#f0a868"/></g>
+<text class="xs" x="166.5" y="293" text-anchor="middle" >q2</text>
+<g filter="url(#wob2)"><rect class="box" x="132.0" y="304" width="93.0" height="21" rx="3" fill="#f0a868"/></g>
+<text class="xs" x="178.5" y="319" text-anchor="middle" >q3</text>
+<g filter="url(#wob2)"><rect class="box" x="156.0" y="226" width="117.0" height="21" rx="3" fill="#f0a868"/></g>
+<text class="xs" x="214.5" y="241" text-anchor="middle" >q4</text>
+<g filter="url(#wob2)"><rect class="box" x="180.0" y="252" width="141.0" height="21" rx="3" fill="#f0a868"/></g>
+<text class="xs" x="250.5" y="267" text-anchor="middle" >q5</text>
+<g filter="url(#wob2)"><rect class="box" x="204.0" y="278" width="165.0" height="21" rx="3" fill="#f0a868"/></g>
+<text class="xs" x="286.5" y="293" text-anchor="middle" >q6</text>
+<g filter="url(#wob2)"><rect class="box" x="228.0" y="304" width="189.0" height="21" rx="3" fill="#f0a868"/></g>
+<text class="xs" x="322.5" y="319" text-anchor="middle" >q7</text>
+<text class="xs" x="120" y="241" text-anchor="end" >SM0</text>
+<text class="xs" x="120" y="267" text-anchor="end" >SM1</text>
+<text class="xs" x="120" y="293" text-anchor="end" >SM2</text>
+<text class="xs" x="120" y="319" text-anchor="end" >SM3</text>
+<path class="dash" d="M 420.0 220 L 420.0 332"/>
+<text class="h" x="428.0" y="286" text-anchor="start" >12</text>
+<g filter="url(#wob)"><rect class="box" x="46" y="358" width="808" height="152" rx="6" fill="#e9f4ec"/></g>
+<text class="h" x="60" y="378" text-anchor="start" >逆序发射 q7 -> q0: 重的先占住 SM, 轻的填空</text>
+<g filter="url(#wob2)"><rect class="box" x="132.0" y="398" width="189.0" height="21" rx="3" fill="#f0a868"/></g>
+<text class="xs" x="226.5" y="413" text-anchor="middle" >q7</text>
+<g filter="url(#wob2)"><rect class="box" x="132.0" y="424" width="165.0" height="21" rx="3" fill="#f0a868"/></g>
+<text class="xs" x="214.5" y="439" text-anchor="middle" >q6</text>
+<g filter="url(#wob2)"><rect class="box" x="132.0" y="450" width="141.0" height="21" rx="3" fill="#f0a868"/></g>
+<text class="xs" x="202.5" y="465" text-anchor="middle" >q5</text>
+<g filter="url(#wob2)"><rect class="box" x="132.0" y="476" width="117.0" height="21" rx="3" fill="#f0a868"/></g>
+<text class="xs" x="190.5" y="491" text-anchor="middle" >q4</text>
+<g filter="url(#wob2)"><rect class="box" x="252.0" y="476" width="93.0" height="21" rx="3" fill="#f0a868"/></g>
+<text class="xs" x="298.5" y="491" text-anchor="middle" >q3</text>
+<g filter="url(#wob2)"><rect class="box" x="276.0" y="450" width="69.0" height="21" rx="3" fill="#f0a868"/></g>
+<text class="xs" x="310.5" y="465" text-anchor="middle" >q2</text>
+<g filter="url(#wob2)"><rect class="box" x="300.0" y="424" width="45.0" height="21" rx="3" fill="#f0a868"/></g>
+<text class="xs" x="322.5" y="439" text-anchor="middle" >q1</text>
+<g filter="url(#wob2)"><rect class="box" x="324.0" y="398" width="21.0" height="21" rx="3" fill="#f0a868"/></g>
+<text class="xs" x="334.5" y="413" text-anchor="middle" >q0</text>
+<text class="xs" x="120" y="413" text-anchor="end" >SM0</text>
+<text class="xs" x="120" y="439" text-anchor="end" >SM1</text>
+<text class="xs" x="120" y="465" text-anchor="end" >SM2</text>
+<text class="xs" x="120" y="491" text-anchor="end" >SM3</text>
+<path class="dash" d="M 348.0 392 L 348.0 504"/>
+<text class="h" x="356.0" y="458" text-anchor="start" >9</text>
+<text class="l" x="450.0" y="540" text-anchor="middle" >总工作量 36 不变, 4 个 SM 的理论下界就是 9 -- 逆序一行代码就够到了下界</text>
+</svg>

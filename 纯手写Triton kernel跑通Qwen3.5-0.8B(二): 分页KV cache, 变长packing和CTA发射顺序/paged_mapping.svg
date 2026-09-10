@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="396" viewBox="0 0 900 396">
+<defs>
+  <filter id="wob" x="-6%" y="-6%" width="112%" height="112%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="3" seed="7" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+  <filter id="wob2" x="-6%" y="-6%" width="112%" height="112%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="19" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="1.5" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+  <marker id="arw" viewBox="0 0 10 10" refX="8" refY="5"
+          markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M 0 1 L 9 5 L 0 9 z" fill="#3d3a36"/>
+  </marker>
+  <marker id="arws" viewBox="0 0 10 10" refX="8" refY="5"
+          markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+    <path d="M 0 1 L 9 5 L 0 9 z" fill="#6b6660"/>
+  </marker>
+</defs>
+<rect width="100%" height="100%" fill="#fdfcf8"/>
+<style>
+  text { font-family: "Comic Sans MS", "Chalkboard SE", "Kaiti SC", "STKaiti", KaiTi, "Noto Sans CJK SC", "Source Han Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; fill: #3d3a36; }
+  .t  { font-size: 21px; font-weight: 700; }
+  .h  { font-size: 15px; font-weight: 700; }
+  .l  { font-size: 13px; }
+  .s  { font-size: 11.5px; fill: #6b6660; }
+  .xs { font-size: 10px; fill: #6b6660; }
+  .box { stroke: #3d3a36; stroke-width: 2; stroke-linejoin: round; }
+  .thin { stroke: #3d3a36; stroke-width: 1.2; stroke-linejoin: round; }
+  .ln { stroke: #3d3a36; stroke-width: 2; fill: none;
+         stroke-linecap: round; stroke-linejoin: round; }
+  .thinln { stroke: #6b6660; stroke-width: 1.4; fill: none;
+             stroke-linecap: round; }
+  .dash { stroke: #3d3a36; stroke-width: 1.8; fill: none;
+           stroke-dasharray: 6 5; stroke-linecap: round; }
+</style>
+<text class="t" x="450.0" y="38" text-anchor="middle" >一个 token 的 K 到底存在哪</text>
+<text class="s" x="450.0" y="62" text-anchor="middle" >以第 0 条序列的第 37 个 token, KV head 1 为例 (页表就是下一张图那一行)</text>
+<g filter="url(#wob)"><rect class="box" x="7.0" y="96" width="190" height="128" rx="6" fill="#7fb3d544"/></g>
+<text class="h" x="102.0" y="122" text-anchor="middle" >逻辑 token</text>
+<text class="l" x="102.0" y="152" text-anchor="middle" >t = 37</text>
+<text class="xs" x="102.0" y="208" text-anchor="middle" >序列自己的第几个 token</text>
+<path class="ln" d="M 203.0 160 L 231.0 160" marker-end="url(#arw)"/>
+<g filter="url(#wob)"><rect class="box" x="239.0" y="96" width="190" height="128" rx="6" fill="#f0a86844"/></g>
+<text class="h" x="334.0" y="122" text-anchor="middle" >逻辑页 / 槽位</text>
+<text class="l" x="334.0" y="152" text-anchor="middle" >37 // 16 = 2</text>
+<text class="l" x="334.0" y="174" text-anchor="middle" >37 % 16 = 5</text>
+<text class="xs" x="334.0" y="208" text-anchor="middle" >第 2 页, 页内第 5 格</text>
+<path class="ln" d="M 435.0 160 L 463.0 160" marker-end="url(#arw)"/>
+<g filter="url(#wob)"><rect class="box" x="471.0" y="96" width="190" height="128" rx="6" fill="#82c09a44"/></g>
+<text class="h" x="566.0" y="122" text-anchor="middle" >查页表</text>
+<text class="l" x="566.0" y="152" text-anchor="middle" >block_table[0][2]</text>
+<text class="l" x="566.0" y="174" text-anchor="middle" >= 3</text>
+<text class="xs" x="566.0" y="208" text-anchor="middle" >本条序列私有的一行</text>
+<path class="ln" d="M 667.0 160 L 695.0 160" marker-end="url(#arw)"/>
+<g filter="url(#wob)"><rect class="box" x="703.0" y="96" width="190" height="128" rx="6" fill="#b39ddb44"/></g>
+<text class="h" x="798.0" y="122" text-anchor="middle" >物理行号</text>
+<text class="l" x="798.0" y="152" text-anchor="middle" >(3*2 + 1)*16 + 5</text>
+<text class="l" x="798.0" y="174" text-anchor="middle" >= 117</text>
+<text class="xs" x="798.0" y="208" text-anchor="middle" >页池里的绝对位置</text>
+<g filter="url(#wob)"><rect class="box" x="120" y="254" width="660" height="60" rx="6" fill="#ffffff"/></g>
+<text class="h" x="450.0" y="280" text-anchor="middle" >row(t, h) = (block_table[b][t // PAGE] * H_kv + h) * PAGE + t % PAGE</text>
+<text class="xs" x="450.0" y="302" text-anchor="middle" >整条式子里没有一个 python int -- 全在显存上算, 所以能进 CUDA Graph</text>
+<text class="l" x="450.0" y="348" text-anchor="middle" >查表这一下就是分页的全部代价. 换来的是逻辑上连续的序列</text>
+<text class="l" x="450.0" y="372" text-anchor="middle" >可以散落在物理上任意的页里</text>
+</svg>
