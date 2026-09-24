@@ -1,0 +1,39 @@
+{
+ "note": "Real-service replay, same code, two arms differing only in process memory policy. A privileged sidecar sampled /proc: per-node TLB shootdown interrupts (1 s), kernel stacks of node-bound loader threads (20 ms), per-thread schedstat (2 s). The sampler itself slows loading in BOTH arms, so only compare the arms with each other.",
+ "arms": ["default policy", "MPOL_LOCAL"],
+ "group_loads": {"total": 42, "node0": 28, "node1": 14},
+ "node0_group_load_ms_median": {"default policy": 1622, "MPOL_LOCAL": 1109},
+ "during_node0_loading": {
+  "tlb_shootdown_irq_per_s_on_node0_cpus": {"default policy": 31051, "MPOL_LOCAL": 15946},
+  "numa_pte_updates_per_s": {"default policy": 7871697, "MPOL_LOCAL": 4797},
+  "numa_hint_faults_per_s": {"default policy": 41693, "MPOL_LOCAL": 2121},
+  "node0_loader_threads": {
+   "running_cores": {"default policy": 0.47, "MPOL_LOCAL": 0.50},
+   "runqueue_wait_cores": {"default policy": 0.47, "MPOL_LOCAL": 0.10},
+   "wait_over_run": {"default policy": 1.00, "MPOL_LOCAL": 0.21},
+   "kernel_time_cores": {"default policy": 0.15, "MPOL_LOCAL": 0.15},
+   "blocked_on_address_space_lock_sample_fraction": {"default policy": 0.013, "MPOL_LOCAL": 0.0037}
+  },
+  "unbound_threads": {
+   "running_cores": {"default policy": 66.30, "MPOL_LOCAL": 85.43},
+   "runqueue_wait_cores": {"default policy": 19.78, "MPOL_LOCAL": 1.03},
+   "cross_cpu_migrations_per_s": {"default policy": 1458, "MPOL_LOCAL": 741}
+  }
+ },
+ "no_loading": {
+  "tlb_shootdown_irq_per_s_on_node0_cpus": {"default policy": 13302, "MPOL_LOCAL": 3964},
+  "unbound_threads": {
+   "running_cores": {"default policy": 72.53, "MPOL_LOCAL": 80.82},
+   "runqueue_wait_cores": {"default policy": 6.80, "MPOL_LOCAL": 0.12},
+   "cross_cpu_migrations_per_s": {"default policy": 251, "MPOL_LOCAL": 23}
+  }
+ },
+ "whole_run_counters_default_policy": {
+  "numa_pte_updates": 1322335831,
+  "numa_hint_faults": 8727888,
+  "numa_hint_faults_local": 8099133,
+  "numa_pages_migrated": 501292,
+  "note": "host-wide /proc/vmstat deltas over one replay; numa_pte_updates counts 4 KiB-equivalents (a 2 MiB huge page counts 512). Since boot on this host, huge pages account for ~82% of numa_pte_updates."
+ },
+ "service_processes_in_container_max": 107
+}
