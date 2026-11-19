@@ -4,6 +4,7 @@
 
 ### 文章列表 (按更新时间倒序)
 
+- [Triton的优化是个黑盒: 多做一次归约, GEMM反而快了](https://github.com/sujuyu/ZhangYu-s-Blog/tree/main/Triton%E7%9A%84%E4%BC%98%E5%8C%96%E6%98%AF%E4%B8%AA%E9%BB%91%E7%9B%92%3A%20%E5%A4%9A%E5%81%9A%E4%B8%80%E6%AC%A1%E5%BD%92%E7%BA%A6%2C%20GEMM%E5%8F%8D%E8%80%8C%E5%BF%AB%E4%BA%86)
 - [模型优化工程实践: fix BN带来的数值溢出与cat造成的显存尖峰问题](https://github.com/sujuyu/ZhangYu-s-Blog/tree/main/%E6%A8%A1%E5%9E%8B%E4%BC%98%E5%8C%96%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5%3A%20fix%20BN%E5%B8%A6%E6%9D%A5%E7%9A%84%E6%95%B0%E5%80%BC%E6%BA%A2%E5%87%BA%E4%B8%8Ecat%E9%80%A0%E6%88%90%E7%9A%84%E6%98%BE%E5%AD%98%E5%B0%96%E5%B3%B0%E9%97%AE%E9%A2%98)
 - [NUMA自动均衡的副作用: 线程向热数据扎堆, 绑核的任务反而变慢](https://github.com/sujuyu/ZhangYu-s-Blog/tree/main/%E8%AD%A6%E6%83%95NUMA%E8%87%AA%E5%8A%A8%E5%9D%87%E8%A1%A1%3A%20%E7%BB%91%E5%A5%BD%E4%BA%86node%2C%20%E6%90%AC%E8%BF%90%E5%8D%B4%E8%BF%98%E6%98%AF%E6%85%A2)
 - [纯手写Triton kernel跑通Qwen3.5-0.8B(二): 分页KV cache, 变长packing和CTA发射顺序](https://github.com/sujuyu/ZhangYu-s-Blog/tree/main/%E7%BA%AF%E6%89%8B%E5%86%99Triton%20kernel%E8%B7%91%E9%80%9AQwen3.5-0.8B%28%E4%BA%8C%29%3A%20%E5%88%86%E9%A1%B5KV%20cache%2C%20%E5%8F%98%E9%95%BFpacking%E5%92%8CCTA%E5%8F%91%E5%B0%84%E9%A1%BA%E5%BA%8F)
